@@ -34,7 +34,7 @@ const trips = [
   },
   {
     id: "TRP-102",
-    driver: "Priya Patel",
+    driver: "Prit Patel",
     vehicle: "TRK-108",
     destination: "Surat",
     status: "On Trip",
@@ -48,7 +48,7 @@ const trips = [
   },
   {
     id: "TRP-104",
-    driver: "Sneha Shah",
+    driver: "Mehul Desai",
     vehicle: "TRK-410",
     destination: "Rajkot",
     status: "Cancelled",
