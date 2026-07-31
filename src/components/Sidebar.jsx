@@ -1,13 +1,50 @@
 import { NavLink } from "react-router-dom";
+import {
+  FaHome,
+  FaTruck,
+  FaUsers,
+  FaClipboardList,
+  FaTools,
+  FaMoneyBillWave,
+  FaChartBar,
+} from "react-icons/fa";
 
 const links = [
-  { to: "/dashboard", label: "🏠 Dashboard" },
-  { to: "/vehicles", label: "🚚 Vehicles" },
-  { to: "/drivers", label: "👨 Drivers" },
-  { to: "/dispatcher", label: "📍 Dispatcher" },
-  { to: "/maintenance", label: "🔧 Maintenance" },
-  { to: "/expenses", label: "💰 Expenses" },
-  { to: "/analytics", label: "📊 Analytics" },
+  {
+    to: "/dashboard",
+    label: "Dashboard",
+    icon: FaHome,
+  },
+  {
+    to: "/vehicles",
+    label: "Vehicles",
+    icon: FaTruck,
+  },
+  {
+    to: "/drivers",
+    label: "Drivers",
+    icon: FaUsers,
+  },
+  {
+    to: "/dispatcher",
+    label: "Dispatcher",
+    icon: FaClipboardList,
+  },
+  {
+    to: "/maintenance",
+    label: "Maintenance",
+    icon: FaTools,
+  },
+  {
+    to: "/expenses",
+    label: "Expenses",
+    icon: FaMoneyBillWave,
+  },
+  {
+    to: "/analytics",
+    label: "Analytics",
+    icon: FaChartBar,
+  },
 ];
 
 export default function Sidebar() {
