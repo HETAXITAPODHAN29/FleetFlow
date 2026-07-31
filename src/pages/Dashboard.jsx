@@ -7,6 +7,8 @@ import {
 
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
+import FleetChart from "../charts/FleetChart";
+import VehiclePieChart from "../charts/VehiclePieChart";
 
 export default function Dashboard() {
   const stats = [
@@ -87,7 +89,7 @@ export default function Dashboard() {
           </h2>
 
           <div className="h-80 flex items-center justify-center text-slate-400">
-            Chart will be added here 📈
+           <FleetChart /> 
           </div>
 
         </div>
@@ -95,7 +97,7 @@ export default function Dashboard() {
         <div className="bg-white rounded-3xl shadow-lg p-8">
 
           <h2 className="text-xl font-bold text-slate-700">
-            Recent Activities
+          <VehiclePieChart />  
           </h2>
 
           <div className="mt-6 space-y-5">
