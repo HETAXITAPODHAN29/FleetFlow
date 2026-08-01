@@ -48,9 +48,18 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="p-8 bg-slate-100 min-h-screen">
+      <div
+        className={`p-8 min-h-screen transition-all duration-500 ${
+        darkMode
+        ? "bg-slate-900 text-white"
+        : "bg-slate-100 text-slate-900"
+        }`}
+        >
       {/* Navbar */}
-      <Navbar title="Dashboard" />
+      <Navbar title="Dashboard"
+       darkMode={darkMode}
+       setDarkMode={setDarkMode}
+      />  
 
       {/* Hero Section */}
          <Hero />
