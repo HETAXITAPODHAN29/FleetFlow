@@ -10,6 +10,7 @@ import StatCard from "../components/StatCard";
 import FleetChart from "../charts/FleetChart";
 import ActivityTimeline from "../components/ActivityTimeline";
 import QuickActions from "../components/QuickActions";
+import Hero from "../components/Hero";
 
 export default function Dashboard() {
   const stats = [
@@ -49,15 +50,7 @@ export default function Dashboard() {
       <Navbar title="Dashboard" />
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-500 rounded-3xl p-10 text-white mt-6 shadow-xl">
-        <h1 className="text-4xl font-bold">
-          Welcome back, Fleet Manager 👋
-        </h1>
-
-        <p className="mt-3 text-blue-100 text-lg">
-          Monitor your fleet operations in real time.
-        </p>
-      </div>
+         <Hero />
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
