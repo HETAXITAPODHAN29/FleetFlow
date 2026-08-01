@@ -25,7 +25,7 @@ const links = [
 ];
 
 export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const user = {
     name: "Hetaxi",
@@ -54,12 +54,15 @@ export default function Sidebar() {
           </div>
         )}
 
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="text-xl hover:text-blue-400 transition"
-        >
-          <FaBars />
-        </button>
+      <button
+        onClick={() => {
+          console.log("Button clicked");
+          setCollapsed((prev) => !prev);
+        }}
+        className="text-xl hover:text-blue-400 transition"
+      >
+        <FaBars />
+      </button>
       </div>
 
       {/* Navigation */}
