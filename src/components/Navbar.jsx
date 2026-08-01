@@ -4,7 +4,7 @@ import {
   FaSearch,
 } from "react-icons/fa";
 
-export default function Navbar({ title }) {
+export default function Navbar({ title }) {   // it is a functional component that takes a title prop and displays a navigation bar with the title, current date, search input, dark mode toggle, notification icon, and user profile information.
 
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -25,7 +25,7 @@ export default function Navbar({ title }) {
         </h1>
 
         <p className="text-slate-500 mt-1">
-          {today}
+          {today} // it is used to display the current date in a human-readable format, showing the weekday, day, month, and year.
         </p>
 
       </div>

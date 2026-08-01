@@ -8,7 +8,8 @@ import {
 import Navbar from "../components/Navbar";
 import StatCard from "../components/StatCard";
 import FleetChart from "../charts/FleetChart";
-import VehiclePieChart from "../charts/VehiclePieChart";
+import ActivityTimeline from "../components/ActivityTimeline";
+import QuickActions from "../components/QuickActions";
 
 export default function Dashboard() {
   const stats = [
@@ -44,13 +45,11 @@ export default function Dashboard() {
 
   return (
     <div className="p-8 bg-slate-100 min-h-screen">
-
+      {/* Navbar */}
       <Navbar title="Dashboard" />
 
       {/* Hero Section */}
-
       <div className="bg-gradient-to-r from-blue-700 to-blue-500 rounded-3xl p-10 text-white mt-6 shadow-xl">
-
         <h1 className="text-4xl font-bold">
           Welcome back, Fleet Manager 👋
         </h1>
@@ -58,13 +57,10 @@ export default function Dashboard() {
         <p className="mt-3 text-blue-100 text-lg">
           Monitor your fleet operations in real time.
         </p>
-
       </div>
 
       {/* Stat Cards */}
-
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
-
         {stats.map((card) => (
           <StatCard
             key={card.title}
@@ -75,51 +71,29 @@ export default function Dashboard() {
             color={card.color}
           />
         ))}
-
       </div>
 
-      {/* Charts */}
-
+      {/* Charts + Activity */}
       <div className="grid lg:grid-cols-2 gap-8 mt-10">
-
+        {/* Fleet Chart */}
         <div className="bg-white rounded-3xl shadow-lg p-8">
-
-          <h2 className="text-xl font-bold text-slate-700">
+          <h2 className="text-xl font-bold text-slate-700 mb-6">
             Fleet Utilization
           </h2>
 
-          <div className="h-80 flex items-center justify-center text-slate-400">
-           <FleetChart /> 
+          <div className="h-80">
+            <FleetChart />
           </div>
-
         </div>
 
-        <div className="bg-white rounded-3xl shadow-lg p-8">
-
-          <h2 className="text-xl font-bold text-slate-700">
-          <VehiclePieChart />  
-          </h2>
-
-          <div className="mt-6 space-y-5">
-
-            <div className="border-l-4 border-blue-500 pl-4">
-              Vehicle GJ01AB1234 dispatched
-            </div>
-
-            <div className="border-l-4 border-green-500 pl-4">
-              Driver Rahul completed Trip #241
-            </div>
-
-            <div className="border-l-4 border-orange-500 pl-4">
-              Maintenance scheduled for Truck #18
-            </div>
-
-          </div>
-
-        </div>
-
+        {/* Recent Activity */}
+        <ActivityTimeline />
       </div>
 
+      {/* Quick Actions */}
+      <div className="mt-8">
+        <QuickActions />
+      </div>
     </div>
   );
 }
