@@ -1,8 +1,10 @@
+import { useState } from "react";
+
 import {
-  FaTruck,
-  FaUsers,
-  FaRoute,
-  FaTools,
+FaTruck,
+FaUsers,
+FaRoute,
+FaTools,
 } from "react-icons/fa";
 
 import Navbar from "../components/Navbar";
@@ -13,6 +15,7 @@ import QuickActions from "../components/QuickActions";
 import Hero from "../components/Hero";
 
 export default function Dashboard() {
+  const [darkMode, setDarkMode] = useState(false);
   const stats = [
     {
       title: "Active Vehicles",

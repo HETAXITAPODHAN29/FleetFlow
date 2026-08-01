@@ -1,10 +1,16 @@
 import {
   FaBell,
   FaMoon,
+  FaSun,
   FaSearch,
 } from "react-icons/fa";
 
-export default function Navbar({ title }) {   // it is a functional component that takes a title prop and displays a navigation bar with the title, current date, search input, dark mode toggle, notification icon, and user profile information.
+export default function Navbar({
+   title,
+   darkMode,
+   setDarkMode,
+}) {
+   // it is a functional component that takes a title prop and displays a navigation bar with the title, current date, search input, dark mode toggle, notification icon, and user profile information.//
 
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -25,9 +31,8 @@ export default function Navbar({ title }) {   // it is a functional component th
         </h1>
 
         <p className="text-slate-500 mt-1">
-          {today} // it is used to display the current date in a human-readable format, showing the weekday, day, month, and year.
+          {today}     {/* Displays the current date */}
         </p>
-
       </div>
 
       {/* Right */}
@@ -50,11 +55,12 @@ export default function Navbar({ title }) {   // it is a functional component th
 
         {/* Dark Mode */}
 
-        <button
-          className="w-12 h-12 rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white transition flex items-center justify-center"
-        >
-          <FaMoon />
-        </button>
+     <button
+  onClick={() => setDarkMode(!darkMode)}
+  className="w-12 h-12 rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white transition flex items-center justify-center"
+>
+  {darkMode ? <FaSun /> : <FaMoon />}
+</button>
 
         {/* Notification */}
 
