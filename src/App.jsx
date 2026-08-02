@@ -33,19 +33,17 @@ export default function App() {
 
           {/* Main Content */}
 
-          <main className="flex-1 overflow-y-auto p-8">
-
-            <Routes>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/vehicles" element={<Vehicles />} />
-              <Route path="/drivers" element={<Drivers />} />
-              <Route path="/dispatcher" element={<Dispatcher />} />
-              <Route path="/maintenance" element={<Maintenance />} />
-              <Route path="/expenses" element={<Expenses />} />
-              <Route path="/analytics" element={<Analytics />} />
-            </Routes>
-
-          </main>
+        <main className="flex-1 p-8 overflow-auto">
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/vehicles" element={<Vehicles />} />
+            <Route path="/drivers" element={<Drivers />} />
+            <Route path="/dispatcher" element={<Dispatcher />} />
+            <Route path="/maintenance" element={<Maintenance />} />
+            <Route path="/expenses" element={<Expenses />} />
+            <Route path="/analytics" element={<Analytics />} />
+          </Routes>
+        </main>
 
         </div>
       )}
