@@ -8,7 +8,7 @@ import {
 
 export default function Navbar({title,}) // it is a functional component that takes a title prop and displays a navigation bar with the title, current date, search input, dark mode toggle, notification icon, and user profile information.//
 {
-  const { darkMode, setDarkMode } = useTheme();
+  const { darkMode, toggleTheme } = useTheme();
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     day: "numeric",
