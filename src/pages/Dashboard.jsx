@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useTheme } from "../context/ThemeContext";
 
 import {
 FaTruck,
@@ -15,7 +15,7 @@ import QuickActions from "../components/QuickActions";
 import Hero from "../components/Hero";
 
 export default function Dashboard() {
-  const [darkMode, setDarkMode] = useState(false);
+  const { darkMode } = useTheme();
   const stats = [
     {
       title: "Active Vehicles",
@@ -57,8 +57,6 @@ export default function Dashboard() {
         >
       {/* Navbar */}
       <Navbar title="Dashboard"
-       darkMode={darkMode}
-       setDarkMode={setDarkMode}
       />  
 
       {/* Hero Section */}
