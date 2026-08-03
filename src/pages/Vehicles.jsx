@@ -4,6 +4,12 @@ import VehicleCard from "../components/VehicleCard";
 import { useState } from "react";
 
 export default function Vehicles() {
+  const [search, setSearch] = useState("");
+  const filteredVehicles = vehicles.filter((vehicle) =>
+  vehicle.model.toLowerCase().includes(search.toLowerCase()) ||
+  vehicle.driver.toLowerCase().includes(search.toLowerCase()) ||
+  vehicle.number.toLowerCase().includes(search.toLowerCase())
+);
   return (
     <div className="min-h-screen bg-slate-50 p-8">
 
@@ -37,9 +43,11 @@ export default function Vehicles() {
           <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
 
           <input
-            type="text"
-            placeholder="Search by vehicle or driver..."
-            className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+              type="text"
+              placeholder="Search vehicle, driver or number..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
           />
 
         </div>
