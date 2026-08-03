@@ -1,25 +1,69 @@
-import Navbar from '../components/Navbar';
-
-const vehicles = [
-  { id: 'FV-102', driver: 'Mina K.', status: 'In transit', location: 'North Hub' },
-  { id: 'FV-214', driver: 'Ari S.', status: 'Maintenance', location: 'Garage A' },
-  { id: 'FV-318', driver: 'Noah P.', status: 'Idle', location: 'South Yard' }
-];
+import { FaPlus, FaSearch, FaFilter } from "react-icons/fa";
+import vehicles from "../data/vehicles";
+import VehicleCard from "../components/VehicleCard";
+import { useState } from "react";
 
 export default function Vehicles() {
   return (
-    <div>
-      <Navbar title="Vehicles" />
-      <table className="table">
-        <thead>
-          <tr><th>Vehicle</th><th>Driver</th><th>Status</th><th>Location</th></tr>
-        </thead>
-        <tbody>
-          {vehicles.map((vehicle) => (
-            <tr key={vehicle.id}><td>{vehicle.id}</td><td>{vehicle.driver}</td><td>{vehicle.status}</td><td>{vehicle.location}</td></tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="min-h-screen bg-slate-50 p-8">
+
+      {/* Header */}
+
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+
+        <div>
+          <h1 className="text-4xl font-bold text-slate-800">
+            Vehicles
+          </h1>
+
+          <p className="text-slate-500 mt-2">
+            Manage your fleet efficiently.
+          </p>
+        </div>
+
+        <button className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl shadow-lg transition-all hover:scale-105">
+          <FaPlus />
+          Add Vehicle
+        </button>
+
+      </div>
+
+      {/* Search + Filter */}
+
+      <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-5 flex flex-col md:flex-row gap-4 mb-10">
+
+        <div className="relative flex-1">
+
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+
+          <input
+            type="text"
+            placeholder="Search by vehicle or driver..."
+            className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none"
+          />
+
+        </div>
+
+        <button className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl border border-slate-300 hover:bg-slate-100 transition">
+          <FaFilter />
+          Filter
+        </button>
+
+      </div>
+
+      {/* Cards */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+        {vehicles.map((vehicle) => (
+          <VehicleCard
+            key={vehicle.id}
+            vehicle={vehicle}
+          />
+        ))}
+
+      </div>
+
     </div>
   );
 }
