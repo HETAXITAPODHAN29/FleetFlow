@@ -61,7 +61,7 @@ export default function Vehicles() {
     },
   ];
 
-  // -------------------- Filter --------------------
+  // -------------------- Filter & Sort Logic --------------------
 
   const filteredVehicles = vehicles.filter((vehicle) => {
     const matchesSearch =
@@ -69,24 +69,25 @@ export default function Vehicles() {
       vehicle.driver.toLowerCase().includes(search.toLowerCase()) ||
       vehicle.number.toLowerCase().includes(search.toLowerCase());
 
-  const sortedVehicles = [...filteredVehicles];
-
-    if (sortBy === "name") {
-      sortedVehicles.sort((a, b) => a.model.localeCompare(b.model));
-    }
-
-    if (sortBy === "fuel") {
-      sortedVehicles.sort((a, b) => b.fuel - a.fuel);
-    }
-
-    if (sortBy === "location") {
-      sortedVehicles.sort((a, b) => a.location.localeCompare(b.location));
-    } 
     const matchesStatus =
       statusFilter === "All" || vehicle.status === statusFilter;
 
     return matchesSearch && matchesStatus;
   });
+
+  const sortedVehicles = [...filteredVehicles];
+
+  if (sortBy === "name") {
+    sortedVehicles.sort((a, b) => a.model.localeCompare(b.model));
+  }
+
+  if (sortBy === "fuel") {
+    sortedVehicles.sort((a, b) => b.fuel - a.fuel);
+  }
+
+  if (sortBy === "location") {
+    sortedVehicles.sort((a, b) => a.location.localeCompare(b.location));
+  }
 
   // -------------------- UI --------------------
 
@@ -153,13 +154,13 @@ export default function Vehicles() {
 
       </div>
 
-      {/* Search + Filter */}
+      {/* Search + Filter + Sort */}
 
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 flex flex-col lg:flex-row gap-5 justify-between mb-10">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 flex flex-col lg:flex-row gap-5 justify-between items-center mb-10">
 
-        {/* Search */}
+        {/* Search Input */}
 
-        <div className="relative flex-1">
+        <div className="relative flex-1 w-full">
 
           <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
 
@@ -173,9 +174,9 @@ export default function Vehicles() {
 
         </div>
 
-        {/* Status Filter */}
+        {/* Status Filter Buttons & Sort Dropdown */}
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
 
           {["All", "Active", "Maintenance", "Inactive"].map((status) => (
 
@@ -193,17 +194,30 @@ export default function Vehicles() {
 
           ))}
 
+          {/* Sort Dropdown */}
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="px-5 py-3 rounded-2xl border border-slate-300 bg-white outline-none focus:ring-2 focus:ring-blue-500 text-slate-600 font-medium"
+          >
+            <option value="default">Sort By</option>
+            <option value="name">Vehicle Name</option>
+            <option value="fuel">Fuel Level</option>
+            <option value="location">Location</option>
+          </select>
+
         </div>
 
       </div>
 
       {/* Vehicle Cards */}
 
-      {filteredVehicles.length > 0 ? (
+      {sortedVehicles.length > 0 ? (
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
 
-          {filteredVehicles.map((vehicle) => (
+          {sortedVehicles.map((vehicle) => (
 
             <VehicleCard
               key={vehicle.id}
