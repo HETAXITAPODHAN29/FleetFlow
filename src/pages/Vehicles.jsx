@@ -1,3 +1,4 @@
+import VehicleModal from "../components/VehicleModal";
 import { useState } from "react";
 import {
   FaPlus,
