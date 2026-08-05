@@ -16,6 +16,7 @@ export default function Vehicles() {
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [sortBy, setSortBy] = useState("default");
 
   // -------------------- Statistics --------------------
 
