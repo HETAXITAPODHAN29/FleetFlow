@@ -77,18 +77,22 @@ export default function Vehicles() {
 
   const sortedVehicles = [...filteredVehicles];
 
-  if (sortBy === "name") {
+ switch (sortBy) {
+  case "name":
     sortedVehicles.sort((a, b) => a.model.localeCompare(b.model));
-  }
+    break;
 
-  if (sortBy === "fuel") {
+  case "fuel":
     sortedVehicles.sort((a, b) => b.fuel - a.fuel);
-  }
+    break;
 
-  if (sortBy === "location") {
+  case "location":
     sortedVehicles.sort((a, b) => a.location.localeCompare(b.location));
-  }
+    break;
 
+  default:
+    break;
+}
   // -------------------- UI --------------------
 
   return (
