@@ -69,6 +69,19 @@ export default function Vehicles() {
       vehicle.driver.toLowerCase().includes(search.toLowerCase()) ||
       vehicle.number.toLowerCase().includes(search.toLowerCase());
 
+  const sortedVehicles = [...filteredVehicles];
+
+    if (sortBy === "name") {
+      sortedVehicles.sort((a, b) => a.model.localeCompare(b.model));
+    }
+
+    if (sortBy === "fuel") {
+      sortedVehicles.sort((a, b) => b.fuel - a.fuel);
+    }
+
+    if (sortBy === "location") {
+      sortedVehicles.sort((a, b) => a.location.localeCompare(b.location));
+    } 
     const matchesStatus =
       statusFilter === "All" || vehicle.status === statusFilter;
 
