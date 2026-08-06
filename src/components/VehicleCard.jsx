@@ -7,7 +7,10 @@ import {
   FaEye,
 } from "react-icons/fa";
 
-export default function VehicleCard({ vehicle }) {
+export default function VehicleCard({
+  vehicle,
+  onView,
+})  {
   const statusColor = {
     Active: "bg-green-100 text-green-700",
     Maintenance: "bg-yellow-100 text-yellow-700",
