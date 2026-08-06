@@ -22,6 +22,12 @@ export default function VehicleCard({
 
       {/* Vehicle Image */}
 
+    <button
+  onClick={onView}
+  className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition-all duration-300 hover:scale-[1.02]"
+>
+  View Details
+  </button> 
       <div className="h-48 overflow-hidden">
         <img
           src={vehicle.image}
@@ -42,7 +48,7 @@ export default function VehicleCard({
               {vehicle.model}
             </h2>
 
-            <p className="text-slate-500">
+              <p className="text-slate-500">
               {vehicle.number}
             </p>
 
