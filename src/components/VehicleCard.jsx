@@ -35,6 +35,11 @@ export default function VehicleCard({
           className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
         />
       </div>
+      <VehicleCard
+  key={vehicle.id}
+  vehicle={vehicle}
+  onView={() => setSelectedVehicle(vehicle)}
+/>
 
       {/* Content */}
 
