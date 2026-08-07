@@ -1,4 +1,5 @@
 import { useState } from "react";
+import AddVehicleModal from "../components/AddVehicleModal";
 import {
   FaPlus,
   FaSearch,
@@ -18,23 +19,25 @@ export default function Vehicles() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [sortBy, setSortBy] = useState("default");
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [vehicleList, setVehicleList] = useState(vehicles);
 
   // Vehicle selected for modal
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
   // -------------------- Statistics --------------------
 
-  const totalVehicles = vehicles.length;
+  const totalVehicles = vehicleList.length;
 
-  const activeVehicles = vehicles.filter(
+  const activeVehicles = vehicleList.filter(
     (v) => v.status === "Active"
   ).length;
 
-  const maintenanceVehicles = vehicles.filter(
+  const maintenanceVehicles = vehicleList.filter(
     (v) => v.status === "Maintenance"
   ).length;
 
-  const inactiveVehicles = vehicles.filter(
+  const inactiveVehicles = vehicleList.filter(
     (v) => v.status === "Inactive"
   ).length;
 
@@ -67,7 +70,7 @@ export default function Vehicles() {
 
   // -------------------- Filter --------------------
 
-  const filteredVehicles = vehicles.filter((vehicle) => {
+  const filteredVehicles = vehicleList.filter((vehicle) => {
     const matchesSearch =
       vehicle.model.toLowerCase().includes(search.toLowerCase()) ||
       vehicle.driver.toLowerCase().includes(search.toLowerCase()) ||
@@ -123,7 +126,10 @@ export default function Vehicles() {
           </p>
         </div>
 
-        <button className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl shadow-lg transition-all hover:scale-105">
+        <button
+           onClick={() => setShowAddModal(true)}
+           className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl shadow-lg transition-all hover:scale-105"
+        >
           <FaPlus />
           Add Vehicle
         </button>
@@ -270,6 +276,16 @@ export default function Vehicles() {
         vehicle={selectedVehicle}
         onClose={() => setSelectedVehicle(null)}
       />
+      
+      {showAddModal && (
+  <AddVehicleModal
+    onClose={() => setShowAddModal(false)}
+    onAdd={(newVehicle) => {
+      setVehicleList((prev) => [...prev, newVehicle]);
+      setShowAddModal(false);
+    }}
+  />
+)}
 
     </div>
   );
