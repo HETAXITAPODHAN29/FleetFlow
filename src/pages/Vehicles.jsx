@@ -277,7 +277,7 @@ export default function Vehicles() {
         onClose={() => setSelectedVehicle(null)}
       />
       
-      {showAddModal && (
+         {showAddModal && (
   <AddVehicleModal
     onClose={() => setShowAddModal(false)}
     onAdd={(newVehicle) => {
@@ -285,7 +285,7 @@ export default function Vehicles() {
       setShowAddModal(false);
     }}
   />
-)}
+  )}
 
     </div>
   );
