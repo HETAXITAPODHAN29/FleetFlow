@@ -10,7 +10,7 @@ import {
 export default function VehicleCard({
   vehicle,
   onView,
-})  {
+}) {
   const statusColor = {
     Active: "bg-green-100 text-green-700",
     Maintenance: "bg-yellow-100 text-yellow-700",
@@ -18,32 +18,23 @@ export default function VehicleCard({
   };
 
   return (
-    <div className="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+    <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
 
       {/* Vehicle Image */}
 
-    <button
-  onClick={onView}
-  className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition-all duration-300 hover:scale-[1.02]"
->
-  View Details
-  </button> 
-      <div className="h-48 overflow-hidden">
-        <img
-          src={vehicle.image}
-          alt={vehicle.model}
-          className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-        />
+      <div className="h-44 bg-gradient-to-br from-blue-100 to-slate-100 flex items-center justify-center">
+
+        <div className="text-7xl">
+          🚚
+        </div>
+
       </div>
-      <VehicleCard
-  key={vehicle.id}
-  vehicle={vehicle}
-  onView={() => setSelectedVehicle(vehicle)}
-/>
 
       {/* Content */}
 
       <div className="p-6">
+
+        {/* Title */}
 
         <div className="flex justify-between items-start">
 
@@ -53,19 +44,23 @@ export default function VehicleCard({
               {vehicle.model}
             </h2>
 
-              <p className="text-slate-500">
+            <p className="text-slate-500">
               {vehicle.number}
             </p>
 
           </div>
 
           <span
-            className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColor[vehicle.status]}`}
+            className={`px-3 py-1 rounded-full text-sm font-semibold ${
+              statusColor[vehicle.status]
+            }`}
           >
             {vehicle.status}
           </span>
 
         </div>
+
+        {/* Vehicle Information */}
 
         <div className="space-y-3 mt-5 text-slate-600">
 
@@ -92,16 +87,18 @@ export default function VehicleCard({
               Fuel
             </span>
 
-            <span>{vehicle.fuel}%</span>
+            <span>
+              {vehicle.fuel}%
+            </span>
 
           </div>
 
-          <div className="w-full h-2 bg-slate-200 rounded-full">
+          <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
 
             <div
               style={{ width: `${vehicle.fuel}%` }}
               className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400"
-            ></div>
+            />
 
           </div>
 
@@ -111,15 +108,31 @@ export default function VehicleCard({
 
         <div className="flex justify-between mt-8">
 
-          <button className="p-3 rounded-xl bg-slate-100 hover:bg-blue-500 hover:text-white transition">
+          {/* View */}
+
+          <button
+            onClick={onView}
+            className="p-3 rounded-xl bg-slate-100 hover:bg-blue-500 hover:text-white transition"
+            title="View Details"
+          >
             <FaEye />
           </button>
 
-          <button className="p-3 rounded-xl bg-slate-100 hover:bg-yellow-500 hover:text-white transition">
+          {/* Edit */}
+
+          <button
+            className="p-3 rounded-xl bg-slate-100 hover:bg-yellow-500 hover:text-white transition"
+            title="Edit Vehicle"
+          >
             <FaEdit />
           </button>
 
-          <button className="p-3 rounded-xl bg-slate-100 hover:bg-red-500 hover:text-white transition">
+          {/* Delete */}
+
+          <button
+            className="p-3 rounded-xl bg-slate-100 hover:bg-red-500 hover:text-white transition"
+            title="Delete Vehicle"
+          >
             <FaTrash />
           </button>
 

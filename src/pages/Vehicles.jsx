@@ -1,4 +1,3 @@
-import VehicleModal from "../components/VehicleModal";
 import { useState } from "react";
 import {
   FaPlus,
@@ -11,6 +10,7 @@ import {
 
 import vehicles from "../data/vehicles";
 import VehicleCard from "../components/VehicleCard";
+import VehicleModal from "../components/VehicleModal";
 
 export default function Vehicles() {
   // -------------------- State --------------------
@@ -18,6 +18,9 @@ export default function Vehicles() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [sortBy, setSortBy] = useState("default");
+
+  // Vehicle selected for modal
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
 
   // -------------------- Statistics --------------------
 
@@ -62,7 +65,7 @@ export default function Vehicles() {
     },
   ];
 
-  // -------------------- Filter & Sort Logic --------------------
+  // -------------------- Filter --------------------
 
   const filteredVehicles = vehicles.filter((vehicle) => {
     const matchesSearch =
@@ -76,24 +79,31 @@ export default function Vehicles() {
     return matchesSearch && matchesStatus;
   });
 
+  // -------------------- Sort --------------------
+
   const sortedVehicles = [...filteredVehicles];
 
- switch (sortBy) {
-  case "name":
-    sortedVehicles.sort((a, b) => a.model.localeCompare(b.model));
-    break;
+  switch (sortBy) {
+    case "name":
+      sortedVehicles.sort((a, b) =>
+        a.model.localeCompare(b.model)
+      );
+      break;
 
-  case "fuel":
-    sortedVehicles.sort((a, b) => b.fuel - a.fuel);
-    break;
+    case "fuel":
+      sortedVehicles.sort((a, b) => b.fuel - a.fuel);
+      break;
 
-  case "location":
-    sortedVehicles.sort((a, b) => a.location.localeCompare(b.location));
-    break;
+    case "location":
+      sortedVehicles.sort((a, b) =>
+        a.location.localeCompare(b.location)
+      );
+      break;
 
-  default:
-    break;
-}
+    default:
+      break;
+  }
+
   // -------------------- UI --------------------
 
   return (
@@ -134,7 +144,6 @@ export default function Vehicles() {
             <div className="flex justify-between items-center">
 
               <div>
-
                 <p className="text-slate-500 text-sm">
                   {item.title}
                 </p>
@@ -142,7 +151,6 @@ export default function Vehicles() {
                 <h2 className="text-3xl font-bold mt-2">
                   {item.value}
                 </h2>
-
               </div>
 
               <div
@@ -163,7 +171,7 @@ export default function Vehicles() {
 
       <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 flex flex-col lg:flex-row gap-5 justify-between items-center mb-10">
 
-        {/* Search Input */}
+        {/* Search */}
 
         <div className="relative flex-1 w-full">
 
@@ -179,27 +187,29 @@ export default function Vehicles() {
 
         </div>
 
-        {/* Status Filter Buttons & Sort Dropdown */}
+        {/* Filters */}
 
         <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
 
-          {["All", "Active", "Maintenance", "Inactive"].map((status) => (
+          {["All", "Active", "Maintenance", "Inactive"].map(
+            (status) => (
 
-            <button
-              key={status}
-              onClick={() => setStatusFilter(status)}
-              className={`px-5 py-3 rounded-2xl font-medium transition-all duration-300 ${
-                statusFilter === status
-                  ? "bg-blue-600 text-white shadow-lg scale-105"
-                  : "bg-white border border-slate-300 text-slate-600 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-600"
-              }`}
-            >
-              {status}
-            </button>
+              <button
+                key={status}
+                onClick={() => setStatusFilter(status)}
+                className={`px-5 py-3 rounded-2xl font-medium transition-all duration-300 ${
+                  statusFilter === status
+                    ? "bg-blue-600 text-white shadow-lg scale-105"
+                    : "bg-white border border-slate-300 text-slate-600 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-600"
+                }`}
+              >
+                {status}
+              </button>
 
-          ))}
+            )
+          )}
 
-          {/* Sort Dropdown */}
+          {/* Sort */}
 
           <select
             value={sortBy}
@@ -227,6 +237,7 @@ export default function Vehicles() {
             <VehicleCard
               key={vehicle.id}
               vehicle={vehicle}
+              onView={() => setSelectedVehicle(vehicle)}
             />
 
           ))}
@@ -252,6 +263,13 @@ export default function Vehicles() {
         </div>
 
       )}
+
+      {/* Vehicle Modal */}
+
+      <VehicleModal
+        vehicle={selectedVehicle}
+        onClose={() => setSelectedVehicle(null)}
+      />
 
     </div>
   );
