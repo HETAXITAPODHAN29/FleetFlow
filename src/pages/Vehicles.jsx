@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AddVehicleModal from "../components/AddVehicleModal";
+import EditVehicleModal from "../components/AddVehicleModal";
 import {
   FaPlus,
   FaSearch,
@@ -21,6 +22,7 @@ export default function Vehicles() {
   const [sortBy, setSortBy] = useState("default");
   const [showAddModal, setShowAddModal] = useState(false);
   const [vehicleList, setVehicleList] = useState(vehicles);
+  const [selectedEditVehicle, setSelectedEditVehicle] = useState(null);
 
   // Vehicle selected for modal
   const [selectedVehicle, setSelectedVehicle] = useState(null);
@@ -244,6 +246,7 @@ export default function Vehicles() {
               key={vehicle.id}
               vehicle={vehicle}
               onView={() => setSelectedVehicle(vehicle)}
+            onEdit={() => setSelectedEditVehicle(vehicle)}
             />
 
           ))}
@@ -276,7 +279,7 @@ export default function Vehicles() {
         vehicle={selectedVehicle}
         onClose={() => setSelectedVehicle(null)}
       />
-      
+
          {showAddModal && (
   <AddVehicleModal
     onClose={() => setShowAddModal(false)}

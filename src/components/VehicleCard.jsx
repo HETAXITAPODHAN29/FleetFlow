@@ -10,6 +10,7 @@ import {
 export default function VehicleCard({
   vehicle,
   onView,
+  onEdit,
 }) {
   const statusColor = {
     Active: "bg-green-100 text-green-700",
@@ -120,13 +121,13 @@ export default function VehicleCard({
 
           {/* Edit */}
 
-          <button
-            className="p-3 rounded-xl bg-slate-100 hover:bg-yellow-500 hover:text-white transition"
-            title="Edit Vehicle"
-          >
-            <FaEdit />
-          </button>
-
+        <button
+          onClick={() => onEdit(vehicle)}
+          className="p-3 rounded-xl bg-slate-100 hover:bg-yellow-500 hover:text-white transition"
+        >
+          <FaEdit />
+        </button>
+        
           {/* Delete */}
 
           <button
