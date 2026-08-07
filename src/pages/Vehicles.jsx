@@ -280,15 +280,33 @@ export default function Vehicles() {
         onClose={() => setSelectedVehicle(null)}
       />
 
-         {showAddModal && (
-  <AddVehicleModal
-    onClose={() => setShowAddModal(false)}
-    onAdd={(newVehicle) => {
-      setVehicleList((prev) => [...prev, newVehicle]);
-      setShowAddModal(false);
-    }}
-  />
-  )}
+      {showAddModal && (
+        <AddVehicleModal
+          onClose={() => setShowAddModal(false)}
+          onAdd={(newVehicle) => {
+            setVehicleList((prev) => [...prev, newVehicle]);
+            setShowAddModal(false);
+          }}
+        />
+      )}
+
+      {selectedEditVehicle && (
+        <EditVehicleModal
+          vehicle={selectedEditVehicle}
+          onClose={() => setSelectedEditVehicle(null)}
+          onSave={(updatedVehicle) => {
+            setVehicleList((prev) =>
+              prev.map((vehicle) =>
+                vehicle.id === updatedVehicle.id
+                  ? updatedVehicle
+                  : vehicle
+              )
+            );
+
+            setSelectedEditVehicle(null);
+          }}
+        />
+      )}
 
     </div>
   );
