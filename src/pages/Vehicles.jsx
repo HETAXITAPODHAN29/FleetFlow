@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AddVehicleModal from "../components/AddVehicleModal";
 import EditVehicleModal from "../components/EditVehicleModal";
+import DeleteVehicleModal from "../components/DeleteVehicleModal";
 import {
   FaPlus,
   FaSearch,
@@ -246,7 +247,8 @@ export default function Vehicles() {
               key={vehicle.id}
               vehicle={vehicle}
               onView={() => setSelectedVehicle(vehicle)}
-            onEdit={() => setSelectedEditVehicle(vehicle)}
+              onEdit={() => setSelectedEditVehicle(vehicle)}
+              onDelete={() => setSelectedDeleteVehicle(vehicle)}
             />
 
           ))}
@@ -308,6 +310,22 @@ export default function Vehicles() {
         />
       )}
 
+      {selectedDeleteVehicle && (
+        <DeleteVehicleModal
+          vehicle={selectedDeleteVehicle}
+          onClose={() => setSelectedDeleteVehicle(null)}
+          onConfirm={() => {
+            setVehicleList((prev) =>
+              prev.filter(
+                (vehicle) => vehicle.id !== selectedDeleteVehicle.id
+              )
+            );
+
+            setSelectedDeleteVehicle(null);
+          }}
+        />
+      )}
+  
     </div>
   );
 }
