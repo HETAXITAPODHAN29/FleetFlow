@@ -30,6 +30,9 @@ export default function EditVehicleModal({
       onClick={onClose}
       className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
     >
+
+      {/* Modal */}
+
       <div
         onClick={(e) => e.stopPropagation()}
         className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl p-8"
@@ -64,7 +67,7 @@ export default function EditVehicleModal({
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-            {/* Model */}
+            {/* Vehicle Model */}
 
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
@@ -79,7 +82,7 @@ export default function EditVehicleModal({
               />
             </div>
 
-            {/* Number */}
+            {/* Vehicle Number */}
 
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
@@ -186,6 +189,7 @@ export default function EditVehicleModal({
         </form>
 
       </div>
+
     </div>
   );
 }
