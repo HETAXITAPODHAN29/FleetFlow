@@ -4,17 +4,18 @@ import {
   FaRoute,
   FaUserClock,
   FaSearch,
+  FaEye,
 } from "react-icons/fa";
 
 import { useState } from "react";
 import drivers from "../data/drivers";
-
+import DriverDetailsModal from "../components/DriverDetailsModal";
 export default function Drivers() {
   // -------------------- State --------------------
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-
+  const [selectedDriver, setSelectedDriver] = useState(null);
   // -------------------- Statistics --------------------
 
   const totalDrivers = drivers.length;
@@ -208,58 +209,107 @@ export default function Drivers() {
 
       {/* Temporary Driver List */}
 
-      {filteredDrivers.length > 0 ? (
+        {filteredDrivers.length > 0 ? (
 
-        <div className="bg-white rounded-3xl border border-slate-200 p-6">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
 
-          {filteredDrivers.map((driver) => (
+            {filteredDrivers.map((driver) => (
 
-            <div
-              key={driver.id}
-              className="flex justify-between items-center py-4 border-b last:border-b-0"
-            >
+              <div
+                key={driver.id}
+                className="flex items-center justify-between
+                py-5 border-b last:border-b-0
+                hover:bg-slate-50 transition rounded-xl px-3"
+              >
 
-              <div>
+                {/* Driver Info */}
 
-                <h3 className="font-semibold text-slate-800">
-                  {driver.name}
-                </h3>
+                <div className="flex items-center gap-4">
 
-                <p className="text-sm text-slate-500">
-                  {driver.vehicle}
-                </p>
+                  <div
+                    className="w-12 h-12 rounded-xl bg-blue-100
+                    text-blue-600 flex items-center justify-center text-xl"
+                  >
+                    <FaUsers />
+                  </div>
+
+                  <div>
+
+                    <h3 className="font-semibold text-slate-800">
+                      {driver.name}
+                    </h3>
+
+                    <p className="text-sm text-slate-500">
+                      {driver.vehicle}
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                {/* Right Side */}
+
+                <div className="flex items-center gap-4">
+
+                  <span
+                    className={`px-4 py-2 rounded-full text-sm font-medium ${
+                      driver.status === "Available"
+                        ? "bg-green-100 text-green-700"
+                        : driver.status === "On Trip"
+                        ? "bg-orange-100 text-orange-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {driver.status}
+                  </span>
+
+
+                  {/* View Button */}
+
+                  <button
+                    onClick={() => setSelectedDriver(driver)}
+                    className="w-10 h-10 rounded-xl bg-slate-100
+                    hover:bg-blue-500 hover:text-white
+                    flex items-center justify-center transition"
+                    title="View Details"
+                  >
+                    <FaEye />
+                  </button>
+
+                </div>
 
               </div>
 
-              <span className="text-sm font-medium text-slate-600">
-                {driver.status}
-              </span>
+            ))}
 
-            </div>
-
-          ))}
-
-        </div>
-
-      ) : (
-
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm py-20 text-center">
-
-          <div className="text-6xl mb-4">
-            👤
           </div>
 
-          <h2 className="text-2xl font-bold text-slate-700">
-            No Drivers Found
-          </h2>
+        ) : (
 
-          <p className="text-slate-500 mt-2">
-            Try changing your search or filter criteria.
-          </p>
+          <div className="bg-white rounded-3xl border border-slate-200
+            shadow-sm py-20 flex flex-col items-center justify-center">
 
-        </div>
+            <div className="text-6xl mb-4">
+              👤
+            </div>
 
-      )}
+            <h2 className="text-2xl font-bold text-slate-700">
+              No Drivers Found
+            </h2>
+
+            <p className="text-slate-500 mt-2">
+              Try changing your search or filter criteria.
+            </p>
+
+          </div>
+
+        )}
+
+        <DriverDetailsModal
+  driver={selectedDriver}
+  onClose={() => setSelectedDriver(null)}
+/>
 
     </div>
   );
