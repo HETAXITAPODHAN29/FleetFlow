@@ -11,6 +11,7 @@ export default function VehicleCard({
   vehicle,
   onView,
   onEdit,
+  onDelete,
 }) {
   const statusColor = {
     Active: "bg-green-100 text-green-700",
@@ -131,6 +132,7 @@ export default function VehicleCard({
           {/* Delete */}
 
           <button
+            onClick={() => onDelete(vehicle)}
             className="p-3 rounded-xl bg-slate-100 hover:bg-red-500 hover:text-white transition"
             title="Delete Vehicle"
           >

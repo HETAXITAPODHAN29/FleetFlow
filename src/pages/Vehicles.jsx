@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AddVehicleModal from "../components/AddVehicleModal";
-import EditVehicleModal from "../components/AddVehicleModal";
+import EditVehicleModal from "../components/EditVehicleModal";
 import {
   FaPlus,
   FaSearch,
@@ -23,7 +23,7 @@ export default function Vehicles() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [vehicleList, setVehicleList] = useState(vehicles);
   const [selectedEditVehicle, setSelectedEditVehicle] = useState(null);
-
+  const [selectedDeleteVehicle, setSelectedDeleteVehicle] = useState(null);
   // Vehicle selected for modal
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
