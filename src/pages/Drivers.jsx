@@ -5,27 +5,23 @@ import {
   FaUserClock,
   FaSearch,
 } from "react-icons/fa";
+
 import { useState } from "react";
 import drivers from "../data/drivers";
 
 export default function Drivers() {
-  // Statistics
+  // -------------------- State --------------------
 
-  const totalDrivers = drivers.length;
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const filteredDrivers = drivers.filter((driver) => {
-  const matchesSearch =
-    driver.name.toLowerCase().includes(search.toLowerCase()) ||
-    driver.vehicle.toLowerCase().includes(search.toLowerCase()) ||
-    driver.phone.toLowerCase().includes(search.toLowerCase());
 
-  const matchesStatus =
-    statusFilter === "All" ||
-    driver.status === statusFilter;
+  // -------------------- Statistics --------------------
 
-  return matchesSearch && matchesStatus;
-});
+  const totalDrivers = drivers.length;
+
+  const availableDrivers = drivers.filter(
+    (driver) => driver.status === "Available"
+  ).length;
 
   const onTripDrivers = drivers.filter(
     (driver) => driver.status === "On Trip"
@@ -62,6 +58,23 @@ export default function Drivers() {
     },
   ];
 
+  // -------------------- Filter Logic --------------------
+
+  const filteredDrivers = drivers.filter((driver) => {
+    const matchesSearch =
+      driver.name.toLowerCase().includes(search.toLowerCase()) ||
+      driver.vehicle.toLowerCase().includes(search.toLowerCase()) ||
+      driver.phone.toLowerCase().includes(search.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "All" ||
+      driver.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  // -------------------- UI --------------------
+
   return (
     <div className="min-h-screen bg-slate-50 p-8">
 
@@ -78,6 +91,7 @@ export default function Drivers() {
         </p>
 
       </div>
+
 
       {/* Statistics */}
 
@@ -120,60 +134,132 @@ export default function Drivers() {
 
       </div>
 
+
       {/* Search + Filter */}
 
-<div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 mt-8 mb-10">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-5 mt-8 mb-8">
 
-  <div className="flex flex-col lg:flex-row gap-5 justify-between">
+        <div className="flex flex-col lg:flex-row gap-5 justify-between">
 
-    {/* Search */}
+          {/* Search */}
 
-    <div className="relative flex-1">
+          <div className="relative flex-1">
 
-      <FaSearch
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-      />
+            <FaSearch
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+            />
 
-      <input
-        type="text"
-        placeholder="Search driver, vehicle or phone..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200
-        focus:ring-2 focus:ring-blue-500 outline-none"
-      />
+            <input
+              type="text"
+              placeholder="Search driver, vehicle or phone..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200
+              focus:ring-2 focus:ring-blue-500 outline-none"
+            />
 
-    </div>
+          </div>
 
-    {/* Status Filters */}
 
-    <div className="flex flex-wrap gap-3">
+          {/* Status Filters */}
 
-      {["All", "Available", "On Trip", "Off Duty"].map((status) => (
+          <div className="flex flex-wrap gap-3">
 
-        <button
-          key={status}
-          onClick={() => setStatusFilter(status)}
-          className={`px-5 py-3 rounded-2xl font-medium transition-all duration-300 ${
-            statusFilter === status
-              ? "bg-blue-600 text-white shadow-lg scale-105"
-              : "bg-white border border-slate-300 text-slate-600 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-600"
-          }`}
-        >
-          {status}
-        </button>
+            {["All", "Available", "On Trip", "Off Duty"].map(
+              (status) => (
 
-      ))}
+                <button
+                  key={status}
+                  onClick={() => setStatusFilter(status)}
+                  className={`px-5 py-3 rounded-2xl font-medium
+                  transition-all duration-300 ${
+                    statusFilter === status
+                      ? "bg-blue-600 text-white shadow-lg scale-105"
+                      : "bg-white border border-slate-300 text-slate-600 hover:bg-blue-50 hover:border-blue-400 hover:text-blue-600"
+                  }`}
+                >
+                  {status}
+                </button>
 
-    </div>
+              )
+            )}
 
-  </div>
+          </div>
 
-</div>
+        </div>
 
-      <div className="text-slate-500">
-  Showing {filteredDrivers.length} driver(s)
       </div>
+
+
+      {/* Result Count */}
+
+      <div className="mb-5">
+
+        <p className="text-slate-500">
+          Showing{" "}
+          <span className="font-semibold text-slate-700">
+            {filteredDrivers.length}
+          </span>{" "}
+          driver(s)
+        </p>
+
+      </div>
+
+
+      {/* Temporary Driver List */}
+
+      {filteredDrivers.length > 0 ? (
+
+        <div className="bg-white rounded-3xl border border-slate-200 p-6">
+
+          {filteredDrivers.map((driver) => (
+
+            <div
+              key={driver.id}
+              className="flex justify-between items-center py-4 border-b last:border-b-0"
+            >
+
+              <div>
+
+                <h3 className="font-semibold text-slate-800">
+                  {driver.name}
+                </h3>
+
+                <p className="text-sm text-slate-500">
+                  {driver.vehicle}
+                </p>
+
+              </div>
+
+              <span className="text-sm font-medium text-slate-600">
+                {driver.status}
+              </span>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      ) : (
+
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm py-20 text-center">
+
+          <div className="text-6xl mb-4">
+            👤
+          </div>
+
+          <h2 className="text-2xl font-bold text-slate-700">
+            No Drivers Found
+          </h2>
+
+          <p className="text-slate-500 mt-2">
+            Try changing your search or filter criteria.
+          </p>
+
+        </div>
+
+      )}
 
     </div>
   );
