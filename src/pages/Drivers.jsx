@@ -22,7 +22,7 @@ export default function Drivers() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [editingDriver, setEditingDriver] = useState(null);
-  const [selectedDriver, setSelectedDriver] = useState(null);
+  
 
   // -------------------- Statistics --------------------
 
