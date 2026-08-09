@@ -15,22 +15,36 @@ import {
 import dispatches from "../data/dispatches";
 
 export default function Dispatcher() {
-  const [search, setSearch] = useState("");
-  const [selectedTrip, setSelectedTrip] = useState(null);
+const [search, setSearch] = useState("");
+const [selectedTrip, setSelectedTrip] = useState(null);
+const [editingTrip, setEditingTrip] = useState(null);
+const [deleteTrip, setDeleteTrip] = useState(null);
+
+const [dispatchList, setDispatchList] = useState(dispatches);
+
+  const handleDelete = () => {
+  if (!deleteTrip) return;
+
+  setDispatchList((currentTrips) =>
+    currentTrips.filter((trip) => trip.id !== deleteTrip.id)
+  );
+
+  setDeleteTrip(null);
+};
 
   // -------------------- Statistics --------------------
 
-  const totalTrips = dispatches.length;
+  const totalTrips = dispatchList.length;
 
-  const scheduledTrips = dispatches.filter(
+  const scheduledTrips = dispatchList.filter(
     (trip) => trip.status === "Scheduled"
   ).length;
 
-  const inTransitTrips = dispatches.filter(
+  const inTransitTrips = dispatchList.filter(
     (trip) => trip.status === "In Transit"
   ).length;
 
-  const completedTrips = dispatches.filter(
+  const completedTrips = dispatchList.filter(
     (trip) => trip.status === "Completed"
   ).length;
 
@@ -63,7 +77,7 @@ export default function Dispatcher() {
 
   // -------------------- Search --------------------
 
-  const filteredDispatches = dispatches.filter((trip) => {
+  const filteredDispatches = dispatchList.filter((trip) => {
     const searchText = search.toLowerCase();
 
     return (
@@ -274,6 +288,7 @@ export default function Dispatcher() {
                   </button>
 
                   <button
+                    onClick={() => setEditingTrip(trip)}
                     className="p-3 rounded-xl bg-slate-100
                     hover:bg-yellow-500 hover:text-white
                     transition-all duration-300"
@@ -283,6 +298,7 @@ export default function Dispatcher() {
                   </button>
 
                   <button
+                    onClick={() => setDeleteTrip(trip)}
                     className="p-3 rounded-xl bg-slate-100
                     hover:bg-red-500 hover:text-white
                     transition-all duration-300"
@@ -328,6 +344,60 @@ export default function Dispatcher() {
         onClose={() => setSelectedTrip(null)}
       />
 
+    {deleteTrip && (
+  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+
+    <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8">
+
+      <div className="text-center">
+
+        <div className="w-16 h-16 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center text-2xl mb-5">
+          <FaTrash />
+        </div>
+
+        <h2 className="text-2xl font-bold text-slate-800">
+          Delete Dispatch?
+        </h2>
+
+        <p className="text-slate-500 mt-3">
+          Are you sure you want to delete{" "}
+          <span className="font-semibold text-slate-700">
+            {deleteTrip.tripId}
+          </span>
+          ?
+        </p>
+
+        <p className="text-sm text-slate-400 mt-2">
+          This action cannot be undone.
+        </p>
+
+      </div>
+
+      <div className="flex justify-end gap-3 mt-8">
+
+        <button
+          onClick={() => setDeleteTrip(null)}
+          className="px-6 py-3 rounded-xl border border-slate-300
+          text-slate-600 hover:bg-slate-100 transition"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleDelete}
+          className="px-6 py-3 rounded-xl bg-red-600
+          hover:bg-red-700 text-white font-medium
+          transition hover:scale-105"
+        >
+          Delete
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
     </div>
   );
 }
