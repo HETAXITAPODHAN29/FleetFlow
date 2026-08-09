@@ -5,17 +5,25 @@ import {
   FaUserClock,
   FaSearch,
   FaEye,
+  FaEdit,
 } from "react-icons/fa";
 
 import { useState } from "react";
 import drivers from "../data/drivers";
 import DriverDetailsModal from "../components/DriverDetailsModal";
+import EditDriverModal from "../components/EditDriverModal";
+import DriverViewModal from "../components/DriverViewModal";
+
+
 export default function Drivers() {
   // -------------------- State --------------------
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedDriver, setSelectedDriver] = useState(null);
+  const [editingDriver, setEditingDriver] = useState(null);
+  const [selectedDriver, setSelectedDriver] = useState(null);
+
   // -------------------- Statistics --------------------
 
   const totalDrivers = drivers.length;
@@ -264,7 +272,6 @@ export default function Drivers() {
                     {driver.status}
                   </span>
 
-
                   {/* View Button */}
 
                   <button
@@ -276,7 +283,17 @@ export default function Drivers() {
                   >
                     <FaEye />
                   </button>
-
+                  
+                  {/* Edit Button */}
+              <button
+                onClick={() => setEditingDriver(driver)}
+                className="w-10 h-10 rounded-xl bg-slate-100
+                hover:bg-yellow-500 hover:text-white
+                flex items-center justify-center transition"
+                title="Edit Driver"
+              >
+                <FaEdit />
+              </button>
                 </div>
 
               </div>
@@ -311,6 +328,14 @@ export default function Drivers() {
   onClose={() => setSelectedDriver(null)}
 />
 
+        <EditDriverModal
+  driver={editingDriver}
+  onClose={() => setEditingDriver(null)}
+  onSave={(updatedDriver) => {
+    console.log("Updated Driver:", updatedDriver);
+    setEditingDriver(null);
+  }}
+/>
     </div>
   );
 }
