@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DispatchViewModal from "../components/DispatchViewModal";
 import {
   FaRoute,
   FaCalendarAlt,
@@ -15,6 +16,7 @@ import dispatches from "../data/dispatches";
 
 export default function Dispatcher() {
   const [search, setSearch] = useState("");
+  const [selectedTrip, setSelectedTrip] = useState(null);
 
   // -------------------- Statistics --------------------
 
@@ -261,7 +263,8 @@ export default function Dispatcher() {
 
                 <div className="flex gap-3">
 
-                  <button
+                <button
+                    onClick={() => setSelectedTrip(trip)}
                     className="p-3 rounded-xl bg-slate-100
                     hover:bg-blue-500 hover:text-white
                     transition-all duration-300"
@@ -319,6 +322,11 @@ export default function Dispatcher() {
         </div>
 
       )}
+      
+      <DispatchViewModal
+        trip={selectedTrip}
+        onClose={() => setSelectedTrip(null)}
+      />
 
     </div>
   );

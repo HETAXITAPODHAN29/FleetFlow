@@ -324,18 +324,18 @@ export default function Drivers() {
         )}
 
         <DriverDetailsModal
-  driver={selectedDriver}
-  onClose={() => setSelectedDriver(null)}
-/>
+          driver={selectedDriver}
+          onClose={() => setSelectedDriver(null)}
+        />
 
         <EditDriverModal
-  driver={editingDriver}
-  onClose={() => setEditingDriver(null)}
-  onSave={(updatedDriver) => {
-    console.log("Updated Driver:", updatedDriver);
-    setEditingDriver(null);
-  }}
-/>
+          driver={editingDriver}
+          onClose={() => setEditingDriver(null)}
+          onSave={(updatedDriver) => {
+            console.log("Updated Driver:", updatedDriver);
+            setEditingDriver(null);
+          }}
+        />
     </div>
   );
 }
