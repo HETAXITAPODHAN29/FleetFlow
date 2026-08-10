@@ -1,6 +1,8 @@
 import { useState } from "react";
 import DispatchViewModal from "../components/DispatchViewModal";
 import EditDispatchModal from "../components/EditDispatchModal";
+import CreateDispatchModal from "../components/CreateDispatchModal";
+
 import {
   FaRoute,
   FaCalendarAlt,
@@ -20,8 +22,9 @@ const [search, setSearch] = useState("");
 const [selectedTrip, setSelectedTrip] = useState(null);
 const [editingTrip, setEditingTrip] = useState(null);
 const [deleteTrip, setDeleteTrip] = useState(null);
-
 const [dispatchList, setDispatchList] = useState(dispatches);
+const [creatingDispatch, setCreatingDispatch] = useState(false);
+
 
   const handleDelete = () => {
   if (!deleteTrip) return;
@@ -43,6 +46,12 @@ const handleEditSave = (updatedTrip) => {
   setEditingTrip(null);
 };
 
+const handleCreateDispatch = (newTrip) => {
+  setDispatchList((currentTrips) => [
+    ...currentTrips,
+    newTrip,
+  ]);
+};
   // -------------------- Statistics --------------------
 
   const totalTrips = dispatchList.length;
@@ -119,12 +128,12 @@ const handleEditSave = (updatedTrip) => {
           </p>
         </div>
 
-        <button className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl shadow-lg transition-all hover:scale-105">
-
+        <button
+          onClick={() => setCreatingDispatch(true)}
+          className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl shadow-lg transition-all hover:scale-105"
+        >
           <FaPlus />
-
           Create Dispatch
-
         </button>
 
       </div>
@@ -318,15 +327,6 @@ const handleEditSave = (updatedTrip) => {
                     <FaTrash />
                   </button>
 
-                  <button
-                    onClick={() => setEditingTrip(trip)}
-                    className="p-3 rounded-xl bg-slate-100
-                    hover:bg-yellow-500 hover:text-white
-                    transition-all duration-300"
-                    title="Edit"
-                  >
-                    <FaEdit />
-                  </button>
                 </div>
 
               </div>
@@ -364,11 +364,11 @@ const handleEditSave = (updatedTrip) => {
         onClose={() => setSelectedTrip(null)}
       />
 
-<EditDispatchModal
-  trip={editingTrip}
-  onClose={() => setEditingTrip(null)}
-  onSave={handleEditSave}
-/>
+      <EditDispatchModal
+        trip={editingTrip}
+        onClose={() => setEditingTrip(null)}
+        onSave={handleEditSave}
+      />
 
     {deleteTrip && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
