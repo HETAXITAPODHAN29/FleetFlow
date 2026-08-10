@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DispatchViewModal from "../components/DispatchViewModal";
+import EditDispatchModal from "../components/EditDispatchModal";
 import {
   FaRoute,
   FaCalendarAlt,
@@ -343,6 +344,7 @@ const [dispatchList, setDispatchList] = useState(dispatches);
         trip={selectedTrip}
         onClose={() => setSelectedTrip(null)}
       />
+      
 
     {deleteTrip && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
