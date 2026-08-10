@@ -33,6 +33,16 @@ const [dispatchList, setDispatchList] = useState(dispatches);
   setDeleteTrip(null);
 };
 
+const handleEditSave = (updatedTrip) => {
+  setDispatchList((currentTrips) =>
+    currentTrips.map((trip) =>
+      trip.id === updatedTrip.id ? updatedTrip : trip
+    )
+  );
+
+  setEditingTrip(null);
+};
+
   // -------------------- Statistics --------------------
 
   const totalTrips = dispatchList.length;
@@ -308,6 +318,15 @@ const [dispatchList, setDispatchList] = useState(dispatches);
                     <FaTrash />
                   </button>
 
+                  <button
+                    onClick={() => setEditingTrip(trip)}
+                    className="p-3 rounded-xl bg-slate-100
+                    hover:bg-yellow-500 hover:text-white
+                    transition-all duration-300"
+                    title="Edit"
+                  >
+                    <FaEdit />
+                  </button>
                 </div>
 
               </div>
@@ -344,7 +363,12 @@ const [dispatchList, setDispatchList] = useState(dispatches);
         trip={selectedTrip}
         onClose={() => setSelectedTrip(null)}
       />
-      
+
+<EditDispatchModal
+  trip={editingTrip}
+  onClose={() => setEditingTrip(null)}
+  onSave={handleEditSave}
+/>
 
     {deleteTrip && (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
