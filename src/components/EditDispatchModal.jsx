@@ -27,29 +27,9 @@ export default function EditDispatchModal({
     onSave(updatedTrip);
   };
 
-  const handleDelete = () => {
-  if (!deleteTrip) return;
-
-  setDispatchList((currentTrips) =>
-    currentTrips.filter((trip) => trip.id !== deleteTrip.id)
-  );
-
-  setDeleteTrip(null);
-};
-
-const handleEditSave = (updatedTrip) => {
-  setDispatchList((currentTrips) =>
-    currentTrips.map((trip) =>
-      trip.id === updatedTrip.id ? updatedTrip : trip
-    )
-  );
-
-  setEditingTrip(null);
-};
-
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
       onClick={onClose}
     >
       <div
@@ -72,6 +52,7 @@ const handleEditSave = (updatedTrip) => {
           </div>
 
           <button
+            type="button"
             onClick={onClose}
             className="w-10 h-10 rounded-full bg-slate-100
             hover:bg-red-500 hover:text-white
