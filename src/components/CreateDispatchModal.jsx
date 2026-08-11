@@ -1,9 +1,13 @@
 import { FaTimes } from "react-icons/fa";
 
 export default function CreateDispatchModal({
+  isOpen,
   onClose,
   onCreate,
 }) {
+  // Don't show modal when it is closed
+  if (!isOpen) return null;
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -50,6 +54,7 @@ export default function CreateDispatchModal({
           </div>
 
           <button
+            type="button"
             onClick={onClose}
             className="w-10 h-10 rounded-full bg-slate-100
             hover:bg-red-500 hover:text-white
