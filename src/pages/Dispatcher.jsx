@@ -371,8 +371,9 @@ const handleCreateDispatch = (newTrip) => {
       />
 
       <CreateDispatchModal
-        onClose={() => setCreatingDispatch(false)}
-        onCreate={handleCreateDispatch}
+      isOpen={createDispatchOpen}
+      onClose={() => setCreateDispatchOpen(false)}
+      onCreate={handleCreateDispatch}
       />
 
     {deleteTrip && (
