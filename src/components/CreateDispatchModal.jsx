@@ -1,10 +1,10 @@
 import { FaTimes } from "react-icons/fa";
 
 export default function CreateDispatchModal({
-  isOpen,
   onClose,
   onCreate,
 }) {
+  
   // Don't show modal when it is closed
   if (!isOpen) return null;
 

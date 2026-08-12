@@ -145,15 +145,13 @@ export default function Dispatcher() {
           </p>
         </div>
 
-        <button
-          onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700
-          text-white px-6 py-3 rounded-2xl shadow-lg
-          transition-all hover:scale-105"
-        >
-          <FaPlus />
-          Create Dispatch
-        </button>
+<button
+  onClick={() => setShowCreateModal(true)}
+  className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl shadow-lg transition-all hover:scale-105"
+>
+  <FaPlus />
+  Create Dispatch
+</button>
 
       </div>
 
@@ -444,12 +442,12 @@ export default function Dispatcher() {
 
       {/* ==================== Create Modal ==================== */}
 
-      {showCreateModal && (
-        <CreateDispatchModal
-          onClose={() => setShowCreateModal(false)}
-          onCreate={handleCreateDispatch}
-        />
-      )}
+{showCreateModal && (
+  <CreateDispatchModal
+    onClose={() => setShowCreateModal(false)}
+    onCreate={handleCreateDispatch}
+  />
+)}
 
 
       {/* ==================== Delete Confirmation ==================== */}
