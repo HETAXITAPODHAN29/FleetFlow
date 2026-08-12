@@ -19,11 +19,16 @@ import dispatches from "../data/dispatches";
 
 export default function Dispatcher() {
 const [search, setSearch] = useState("");
-const [selectedTrip, setSelectedTrip] = useState(null);
-const [editingTrip, setEditingTrip] = useState(null);
-const [deleteTrip, setDeleteTrip] = useState(null);
+
 const [dispatchList, setDispatchList] = useState(dispatches);
-const [creatingDispatch, setCreatingDispatch] = useState(false);
+
+const [selectedTrip, setSelectedTrip] = useState(null);
+
+const [editingTrip, setEditingTrip] = useState(null);
+
+const [deleteTrip, setDeleteTrip] = useState(null);
+
+const [showCreateModal, setShowCreateModal] = useState(false);
 
 
   const handleDelete = () => {
