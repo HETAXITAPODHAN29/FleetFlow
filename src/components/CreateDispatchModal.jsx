@@ -1,11 +1,11 @@
 import { FaTimes } from "react-icons/fa";
 
 export default function CreateDispatchModal({
+  isOpen,
   onClose,
   onCreate,
 }) {
-  
-  // Don't show modal when it is closed
+  // If modal is not open, show nothing
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
@@ -31,11 +31,13 @@ export default function CreateDispatchModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm
+      flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <div
-        className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl p-8 max-h-[90vh] overflow-y-auto"
+        className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl
+        p-8 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
 
