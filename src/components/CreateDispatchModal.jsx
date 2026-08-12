@@ -1,7 +1,8 @@
 import { FaTimes } from "react-icons/fa";
 
 export default function CreateDispatchModal({
-
+  isOpen,
+  onClose,
   onCreate,
 }) {
   // If modal is not open, show nothing
