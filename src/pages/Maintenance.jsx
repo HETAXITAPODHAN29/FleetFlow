@@ -97,7 +97,7 @@ export default function Maintenance() {
   const [maintenanceList, setMaintenanceList] = useState(maintenanceData);
   const [search, setSearch] = useState("");
   const [selectedMaintenance, setSelectedMaintenance] = useState(null);
-const [maintenanceMode, setMaintenanceMode] = useState("view");
+  const [maintenanceMode, setMaintenanceMode] = useState("view");
   // -------------------- Statistics --------------------
 
   const totalRecords = maintenanceList.length;
@@ -164,6 +164,19 @@ const [maintenanceMode, setMaintenanceMode] = useState("view");
       currentItems.filter((maintenance) => maintenance.id !== item.id)
     );
   };
+
+  // -------------------- Edit --------------------
+  const handleEditSave = (updatedMaintenance) => {
+  setMaintenanceList((currentItems) =>
+    currentItems.map((item) =>
+      item.id === updatedMaintenance.id
+        ? updatedMaintenance
+        : item
+    )
+  );
+
+  setSelectedMaintenance(null);
+};
 
   // -------------------- UI --------------------
 
@@ -364,14 +377,18 @@ const [maintenanceMode, setMaintenanceMode] = useState("view");
 
                 <div className="flex gap-3">
 
-                  <button
-                    className="p-3 rounded-xl bg-slate-100
-                    hover:bg-blue-500 hover:text-white
-                    transition-all duration-300"
-                    title="View"
-                  >
-                    <FaEye />
-                  </button>
+               <button
+                onClick={() => {
+                  setSelectedMaintenance(item);
+                  setMaintenanceMode("view");
+                }}
+                className="p-3 rounded-xl bg-slate-100
+                hover:bg-blue-500 hover:text-white
+                transition-all duration-300"
+                title="View"
+              >
+                <FaEye />
+              </button>
 
                   <button
                     className="p-3 rounded-xl bg-slate-100
