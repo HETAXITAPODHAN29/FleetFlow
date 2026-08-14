@@ -11,6 +11,7 @@ import {
   FaPlus,
 } from "react-icons/fa";
 
+
 const maintenanceData = [
   {
     id: 1,
@@ -95,7 +96,8 @@ const maintenanceData = [
 export default function Maintenance() {
   const [maintenanceList, setMaintenanceList] = useState(maintenanceData);
   const [search, setSearch] = useState("");
-
+  const [selectedMaintenance, setSelectedMaintenance] = useState(null);
+const [maintenanceMode, setMaintenanceMode] = useState("view");
   // -------------------- Statistics --------------------
 
   const totalRecords = maintenanceList.length;
