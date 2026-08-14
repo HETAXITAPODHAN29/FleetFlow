@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { FaPlus } from "react-icons/fa";
+import MaintenanceModal from "../components/MaintenanceModal";
+import CreateMaintenanceModal from "../components/CreateMaintenanceModal";
+
 import {
   FaTools,
   FaCalendarAlt,
@@ -98,6 +102,8 @@ export default function Maintenance() {
   const [search, setSearch] = useState("");
   const [selectedMaintenance, setSelectedMaintenance] = useState(null);
   const [maintenanceMode, setMaintenanceMode] = useState("view");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
   // -------------------- Statistics --------------------
 
   const totalRecords = maintenanceList.length;
@@ -175,8 +181,9 @@ export default function Maintenance() {
     )
   );
 
-  setSelectedMaintenance(null);
+setSelectedMaintenance(null);
 };
+
 
   // -------------------- UI --------------------
 
@@ -198,6 +205,7 @@ export default function Maintenance() {
         </div>
 
         <button
+          onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-3 bg-blue-600
           hover:bg-blue-700 text-white px-6 py-3 rounded-2xl
           shadow-lg transition-all hover:scale-105"
@@ -445,6 +453,15 @@ export default function Maintenance() {
         </div>
 
       )}
+
+
+      {/* Maintenance Modal */}
+      <MaintenanceModal
+        maintenance={selectedMaintenance}
+        mode={maintenanceMode}
+        onClose={() => setSelectedMaintenance(null)}
+        onSave={handleEditSave}
+      />
 
     </div>
   );
