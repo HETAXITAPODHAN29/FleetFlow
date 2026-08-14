@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa";
 import MaintenanceModal from "../components/MaintenanceModal";
 import CreateMaintenanceModal from "../components/CreateMaintenanceModal";
 
