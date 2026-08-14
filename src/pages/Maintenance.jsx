@@ -463,6 +463,11 @@ setSelectedMaintenance(null);
         onSave={handleEditSave}
       />
 
+      <CreateMaintenanceModal
+        onClose={() => setShowCreateModal(false)}
+        onCreate={handleCreate}
+      />
+
     </div>
   );
 }
