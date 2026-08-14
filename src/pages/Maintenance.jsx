@@ -390,14 +390,18 @@ export default function Maintenance() {
                 <FaEye />
               </button>
 
-                  <button
-                    className="p-3 rounded-xl bg-slate-100
-                    hover:bg-yellow-500 hover:text-white
-                    transition-all duration-300"
-                    title="Edit"
-                  >
-                    <FaEdit />
-                  </button>
+                 <button
+                  onClick={() => {
+                    setSelectedMaintenance(item);
+                    setMaintenanceMode("edit");
+                  }}
+                  className="p-3 rounded-xl bg-slate-100
+                  hover:bg-yellow-500 hover:text-white
+                  transition-all duration-300"
+                  title="Edit"
+                >
+                  <FaEdit />
+                </button>
 
                   <button
                     onClick={() => handleDelete(item)}
