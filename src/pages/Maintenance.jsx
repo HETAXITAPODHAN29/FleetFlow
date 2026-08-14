@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import MaintenanceModal from "../components/MaintenanceModal";
 import CreateMaintenanceModal from "../components/CreateMaintenanceModal";
 
@@ -14,6 +15,7 @@ import {
   FaPlus,
 } from "react-icons/fa";
 
+// -------------------- Maintenance Data --------------------
 
 const maintenanceData = [
   {
@@ -29,6 +31,7 @@ const maintenanceData = [
     cost: 2500,
     technician: "Rajesh Patel",
   },
+
   {
     id: 2,
     maintenanceId: "MNT-002",
@@ -42,6 +45,7 @@ const maintenanceData = [
     cost: 8500,
     technician: "Amit Shah",
   },
+
   {
     id: 3,
     maintenanceId: "MNT-003",
@@ -55,6 +59,7 @@ const maintenanceData = [
     cost: 1500,
     technician: "Karan Mehta",
   },
+
   {
     id: 4,
     maintenanceId: "MNT-004",
@@ -68,6 +73,7 @@ const maintenanceData = [
     cost: 4200,
     technician: "Rajesh Patel",
   },
+
   {
     id: 5,
     maintenanceId: "MNT-005",
@@ -81,6 +87,7 @@ const maintenanceData = [
     cost: 3200,
     technician: "Amit Shah",
   },
+
   {
     id: 6,
     maintenanceId: "MNT-006",
@@ -96,12 +103,22 @@ const maintenanceData = [
   },
 ];
 
+// -------------------- Component --------------------
+
 export default function Maintenance() {
-  const [maintenanceList, setMaintenanceList] = useState(maintenanceData);
+  const [maintenanceList, setMaintenanceList] =
+    useState(maintenanceData);
+
   const [search, setSearch] = useState("");
-  const [selectedMaintenance, setSelectedMaintenance] = useState(null);
-  const [maintenanceMode, setMaintenanceMode] = useState("view");
-  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  const [selectedMaintenance, setSelectedMaintenance] =
+    useState(null);
+
+  const [maintenanceMode, setMaintenanceMode] =
+    useState("view");
+
+  const [showCreateModal, setShowCreateModal] =
+    useState(false);
 
   // -------------------- Statistics --------------------
 
@@ -126,18 +143,21 @@ export default function Maintenance() {
       icon: <FaTools />,
       color: "bg-blue-500",
     },
+
     {
       title: "Scheduled",
       value: scheduledRecords,
       icon: <FaCalendarAlt />,
       color: "bg-yellow-500",
     },
+
     {
       title: "In Progress",
       value: inProgressRecords,
       icon: <FaClock />,
       color: "bg-orange-500",
     },
+
     {
       title: "Completed",
       value: completedRecords,
@@ -166,23 +186,36 @@ export default function Maintenance() {
 
   const handleDelete = (item) => {
     setMaintenanceList((currentItems) =>
-      currentItems.filter((maintenance) => maintenance.id !== item.id)
+      currentItems.filter(
+        (maintenance) => maintenance.id !== item.id
+      )
     );
   };
 
   // -------------------- Edit --------------------
+
   const handleEditSave = (updatedMaintenance) => {
-  setMaintenanceList((currentItems) =>
-    currentItems.map((item) =>
-      item.id === updatedMaintenance.id
-        ? updatedMaintenance
-        : item
-    )
-  );
+    setMaintenanceList((currentItems) =>
+      currentItems.map((item) =>
+        item.id === updatedMaintenance.id
+          ? updatedMaintenance
+          : item
+      )
+    );
 
-setSelectedMaintenance(null);
-};
+    setSelectedMaintenance(null);
+  };
 
+  // -------------------- Create --------------------
+
+  const handleCreate = (newMaintenance) => {
+    setMaintenanceList((currentItems) => [
+      ...currentItems,
+      newMaintenance,
+    ]);
+
+    setShowCreateModal(false);
+  };
 
   // -------------------- UI --------------------
 
@@ -258,8 +291,10 @@ setSelectedMaintenance(null);
 
       {/* Search */}
 
-      <div className="bg-white rounded-3xl border border-slate-200
-      shadow-sm p-5 mb-8">
+      <div
+        className="bg-white rounded-3xl border border-slate-200
+        shadow-sm p-5 mb-8"
+      >
 
         <div className="relative">
 
@@ -292,8 +327,10 @@ setSelectedMaintenance(null);
 
       {filteredMaintenance.length > 0 ? (
 
-        <div className="bg-white rounded-3xl border border-slate-200
-        shadow-sm overflow-hidden">
+        <div
+          className="bg-white rounded-3xl border border-slate-200
+          shadow-sm overflow-hidden"
+        >
 
           {filteredMaintenance.map((item, index) => (
 
@@ -306,8 +343,10 @@ setSelectedMaintenance(null);
               }`}
             >
 
-              <div className="flex flex-col xl:flex-row
-              xl:items-center justify-between gap-6">
+              <div
+                className="flex flex-col xl:flex-row
+                xl:items-center justify-between gap-6"
+              >
 
                 {/* Maintenance Information */}
 
@@ -353,8 +392,10 @@ setSelectedMaintenance(null);
                     {item.task}
                   </p>
 
-                  <div className="flex flex-wrap gap-x-8 gap-y-2
-                  mt-3 text-sm text-slate-500">
+                  <div
+                    className="flex flex-wrap gap-x-8 gap-y-2
+                    mt-3 text-sm text-slate-500"
+                  >
 
                     <span>
                       🚚 {item.vehicle}
@@ -384,31 +425,37 @@ setSelectedMaintenance(null);
 
                 <div className="flex gap-3">
 
-               <button
-                onClick={() => {
-                  setSelectedMaintenance(item);
-                  setMaintenanceMode("view");
-                }}
-                className="p-3 rounded-xl bg-slate-100
-                hover:bg-blue-500 hover:text-white
-                transition-all duration-300"
-                title="View"
-              >
-                <FaEye />
-              </button>
+                  {/* View */}
 
-                 <button
-                  onClick={() => {
-                    setSelectedMaintenance(item);
-                    setMaintenanceMode("edit");
-                  }}
-                  className="p-3 rounded-xl bg-slate-100
-                  hover:bg-yellow-500 hover:text-white
-                  transition-all duration-300"
-                  title="Edit"
-                >
-                  <FaEdit />
-                </button>
+                  <button
+                    onClick={() => {
+                      setSelectedMaintenance(item);
+                      setMaintenanceMode("view");
+                    }}
+                    className="p-3 rounded-xl bg-slate-100
+                    hover:bg-blue-500 hover:text-white
+                    transition-all duration-300"
+                    title="View"
+                  >
+                    <FaEye />
+                  </button>
+
+                  {/* Edit */}
+
+                  <button
+                    onClick={() => {
+                      setSelectedMaintenance(item);
+                      setMaintenanceMode("edit");
+                    }}
+                    className="p-3 rounded-xl bg-slate-100
+                    hover:bg-yellow-500 hover:text-white
+                    transition-all duration-300"
+                    title="Edit"
+                  >
+                    <FaEdit />
+                  </button>
+
+                  {/* Delete */}
 
                   <button
                     onClick={() => handleDelete(item)}
@@ -434,8 +481,10 @@ setSelectedMaintenance(null);
 
         /* Empty State */
 
-        <div className="bg-white rounded-3xl border border-slate-200
-        shadow-sm py-20 flex flex-col items-center justify-center">
+        <div
+          className="bg-white rounded-3xl border border-slate-200
+          shadow-sm py-20 flex flex-col items-center justify-center"
+        >
 
           <div className="text-7xl mb-4">
             🛠️
@@ -453,14 +502,16 @@ setSelectedMaintenance(null);
 
       )}
 
+      {/* View / Edit Maintenance Modal */}
 
-      {/* Maintenance Modal */}
       <MaintenanceModal
         maintenance={selectedMaintenance}
         mode={maintenanceMode}
         onClose={() => setSelectedMaintenance(null)}
         onSave={handleEditSave}
       />
+
+      {/* Create Maintenance Modal */}
 
       {showCreateModal && (
         <CreateMaintenanceModal
