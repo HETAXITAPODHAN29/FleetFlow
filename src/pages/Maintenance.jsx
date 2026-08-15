@@ -512,7 +512,12 @@ export default function Maintenance() {
       />
 
 
- 
+      {showCreateModal && (
+        <CreateMaintenanceModal
+          onClose={() => setShowCreateModal(false)}
+          onCreate={handleCreate}
+        />
+      )}
 
     </div>
   );
