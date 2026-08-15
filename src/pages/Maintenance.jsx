@@ -511,14 +511,8 @@ export default function Maintenance() {
         onSave={handleEditSave}
       />
 
-      {/* Create Maintenance Modal */}
 
-      {showCreateModal && (
-        <CreateMaintenanceModal
-          onClose={() => setShowCreateModal(false)}
-          onCreate={handleCreate}
-        />
-      )}
+ 
 
     </div>
   );
