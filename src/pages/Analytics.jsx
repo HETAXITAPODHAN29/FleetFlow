@@ -79,6 +79,7 @@ export default function Analytics() {
     { label: "Aug 2026", value: 88 },
   ],
 };
+
   const tripData = [
     { label: "Completed", value: 72, color: "bg-green-500" },
     { label: "In Transit", value: 16, color: "bg-orange-500" },
@@ -128,17 +129,17 @@ export default function Analytics() {
 
         <div className="flex items-center gap-3">
 
-          <select
-            className="px-4 py-3 rounded-xl border border-slate-200
-            bg-white text-slate-600 outline-none
-            focus:ring-2 focus:ring-blue-500"
-            defaultValue="month"
-          >
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-            <option value="quarter">This Quarter</option>
-            <option value="year">This Year</option>
-          </select>
+        <select
+          value={timeRange}
+          onChange={(e) => setTimeRange(e.target.value)}
+          className="px-4 py-3 rounded-xl border border-slate-200
+          bg-white text-slate-600 outline-none
+          focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="month">This Month</option>
+          <option value="quarter">This Quarter</option>
+          <option value="year">This Year</option>
+        </select>
 
         </div>
 
