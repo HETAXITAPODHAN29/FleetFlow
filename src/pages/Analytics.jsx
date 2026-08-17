@@ -11,6 +11,7 @@ import {
   FaCheckCircle,
   FaClock,
 } from "react-icons/fa";
+
 export default function Analytics() {
   const stats = [
     {
@@ -50,7 +51,34 @@ export default function Analytics() {
       positive: false,
     },
   ];
+  
+  const [timeRange, setTimeRange] = useState("month");
 
+  const chartData = {
+  month: [
+    { label: "Week 1", value: 68 },
+    { label: "Week 2", value: 74 },
+    { label: "Week 3", value: 79 },
+    { label: "Week 4", value: 81 },
+  ],
+
+  quarter: [
+    { label: "Jun 2026", value: 72 },
+    { label: "Jul 2026", value: 76 },
+    { label: "Aug 2026", value: 81 },
+  ],
+
+  year: [
+    { label: "Jan 2026", value: 52 },
+    { label: "Feb 2026", value: 64 },
+    { label: "Mar 2026", value: 58 },
+    { label: "Apr 2026", value: 72 },
+    { label: "May 2026", value: 68 },
+    { label: "Jun 2026", value: 81 },
+    { label: "Jul 2026", value: 76 },
+    { label: "Aug 2026", value: 88 },
+  ],
+};
   const tripData = [
     { label: "Completed", value: 72, color: "bg-green-500" },
     { label: "In Transit", value: 16, color: "bg-orange-500" },
