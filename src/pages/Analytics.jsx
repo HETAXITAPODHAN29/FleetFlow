@@ -241,23 +241,6 @@ export default function Analytics() {
 
           <div className="h-64 flex items-end gap-4 px-4">
 
-          {chartData[timeRange].map((item) => (
-            <div
-              key={item.label}
-              className="flex-1 flex flex-col items-center gap-2"
-            >
-              <div className="w-full flex items-end h-48">
-                <div
-                  className="w-full bg-blue-500 rounded-t-xl
-                  hover:bg-blue-600 transition-all"
-                  style={{ height: `${item.value}%` }}
-                />
-              </div>
-
-              <span className="text-xs text-slate-400 whitespace-nowrap">
-                {item.label}
-              </span>
-            </div>
           ))}
 
           </div>
