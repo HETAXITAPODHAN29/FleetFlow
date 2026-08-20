@@ -84,15 +84,6 @@ export default function Dashboard() {
             Fleet Utilization
           </h2>
 
-          <div className="h-80">
-            <FleetChart />
-          </div>
-        </div>
-
-        {/* Recent Activity */}
-        <ActivityTimeline />
-      </div>
-
       {/* Quick Actions */}
       <div className="mt-8">
         <QuickActions />
