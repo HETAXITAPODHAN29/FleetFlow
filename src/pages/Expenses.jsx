@@ -779,21 +779,6 @@ function ExpenseModal({
               Cancel
             </button>
 
-            <button
-              type="submit"
-              className="px-6 py-3 rounded-xl bg-blue-600
-              hover:bg-blue-700 text-white font-medium
-              shadow-lg transition hover:scale-105"
-            >
-              {expense ? "Save Changes" : "Add Expense"}
-            </button>
-
-          </div>
-
-        </form>
-
-      </div>
-
-    </div>
+ 
   );
 }
