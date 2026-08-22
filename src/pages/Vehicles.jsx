@@ -289,7 +289,22 @@ export default function Vehicles() {
             setVehicleList((prev) => [...prev, newVehicle]);
             setShowAddModal(false);
           }}
- 
+        />
+      )}
+
+      {selectedEditVehicle && (
+        <EditVehicleModal
+          vehicle={selectedEditVehicle}
+          onClose={() => setSelectedEditVehicle(null)}
+          onSave={(updatedVehicle) => {
+            setVehicleList((prev) =>
+              prev.map((vehicle) =>
+                vehicle.id === updatedVehicle.id
+                  ? updatedVehicle
+                  : vehicle
+              )
+            );
+
             setSelectedEditVehicle(null);
           }}
         />
