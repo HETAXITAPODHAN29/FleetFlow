@@ -292,15 +292,7 @@ export default function Vehicles() {
         />
       )}
 
-      {selectedEditVehicle && (
-        <EditVehicleModal
-          vehicle={selectedEditVehicle}
-          onClose={() => setSelectedEditVehicle(null)}
-          onSave={(updatedVehicle) => {
-            setVehicleList((prev) =>
-              prev.map((vehicle) =>
-                vehicle.id === updatedVehicle.id
-                  ? updatedVehicle
+e
                   : vehicle
               )
             );
