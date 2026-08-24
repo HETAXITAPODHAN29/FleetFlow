@@ -1,10 +1,12 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 import {
-FaTruck,
-FaUsers,
-FaRoute,
-FaTools,
+  FaTruck,
+  FaUsers,
+  FaRoute,
+  FaTools,
 } from "react-icons/fa";
 
 import Navbar from "../components/Navbar";
@@ -13,13 +15,51 @@ import FleetChart from "../charts/FleetChart";
 import ActivityTimeline from "../components/ActivityTimeline";
 import QuickActions from "../components/QuickActions";
 import Hero from "../components/Hero";
+import AddVehicleModal from "../components/AddVehicleModal";
 
 export default function Dashboard() {
   const { darkMode } = useTheme();
+  const navigate = useNavigate();
+
+  // -----------------------------
+  // ADD VEHICLE MODAL
+  // -----------------------------
+  const [showAddVehicleModal, setShowAddVehicleModal] = useState(false);
+
+  // -----------------------------
+  // VEHICLE COUNT
+  // -----------------------------
+  const [vehicleCount, setVehicleCount] = useState(128);
+
+  // -----------------------------
+  // OPEN ADD VEHICLE
+  // -----------------------------
+  const handleAddVehicle = () => {
+    setShowAddVehicleModal(true);
+  };
+
+  // -----------------------------
+  // VEHICLE CREATED
+  // -----------------------------
+  const handleVehicleCreated = (newVehicle) => {
+    console.log("New vehicle added:", newVehicle);
+
+    setVehicleCount((currentCount) => currentCount + 1);
+
+    setShowAddVehicleModal(false);
+  };
+
+  // -----------------------------
+  // VIEW REPORTS
+  // -----------------------------
+  const handleViewReports = () => {
+    navigate("/analytics");
+  };
+
   const stats = [
     {
       title: "Active Vehicles",
-      value: "128",
+      value: vehicleCount,
       change: "+8%",
       icon: <FaTruck />,
       color: "blue",
@@ -48,19 +88,21 @@ export default function Dashboard() {
   ];
 
   return (
-      <div
-        className={`p-8 min-h-screen transition-all duration-500 ${
+    <div
+      className={`p-8 min-h-screen transition-all duration-500 ${
         darkMode
-        ? "bg-slate-900 text-white"
-        : "bg-slate-100 text-slate-900"
-        }`}
-        >
+          ? "bg-slate-900 text-white"
+          : "bg-slate-100 text-slate-900"
+      }`}
+    >
       {/* Navbar */}
-      <Navbar title="Dashboard"
-      />  
+      <Navbar title="Dashboard" />
 
       {/* Hero Section */}
-         <Hero />
+      <Hero
+        onAddVehicle={handleAddVehicle}
+        onViewReports={handleViewReports}
+      />
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
@@ -78,9 +120,18 @@ export default function Dashboard() {
 
       {/* Charts + Activity */}
       <div className="grid lg:grid-cols-2 gap-8 mt-10">
+
         {/* Fleet Chart */}
-        <div className="bg-white rounded-3xl shadow-lg p-8">
-          <h2 className="text-xl font-bold text-slate-700 mb-6">
+        <div
+          className={`rounded-3xl shadow-lg p-8 ${
+            darkMode ? "bg-slate-800" : "bg-white"
+          }`}
+        >
+          <h2
+            className={`text-xl font-bold mb-6 ${
+              darkMode ? "text-white" : "text-slate-700"
+            }`}
+          >
             Fleet Utilization
           </h2>
 
@@ -97,6 +148,14 @@ export default function Dashboard() {
       <div className="mt-8">
         <QuickActions />
       </div>
+
+      {/* Add Vehicle Modal */}
+      {showAddVehicleModal && (
+        <AddVehicleModal
+          onClose={() => setShowAddVehicleModal(false)}
+          onCreate={handleVehicleCreated}
+        />
+      )}
     </div>
   );
 }
