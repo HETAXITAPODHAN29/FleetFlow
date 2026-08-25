@@ -68,21 +68,7 @@ export default function Hero({
 
           <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-5">
             <div className="text-3xl font-bold">
-              64
-            </div>
-            <div className="text-blue-100">
-              Drivers
-            </div>
-          </div>
 
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-5">
-            <div className="text-3xl font-bold">
-              94%
-            </div>
-            <div className="text-blue-100">
-              On-Time Deliveries
-            </div>
-          </div>
 
         </div>
 
