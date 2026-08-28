@@ -150,13 +150,15 @@ export default function Dashboard() {
         <QuickActions />
       </div>
 
-      {/* Add Vehicle Modal */}
-      {showAddVehicleModal && (
-        <AddVehicleModal
-          onClose={() => setShowAddVehicleModal(false)}
-          onCreate={handleVehicleCreated}
-        />
-      )}
+   {showAddVehicle && (
+  <AddVehicleModal
+    onClose={() => setShowAddVehicle(false)}
+    onAdd={(vehicle) => {
+      console.log("New Vehicle:", vehicle);
+      setShowAddVehicle(false);
+    }}
+  />
+)}
     </div>
   );
 }
