@@ -107,7 +107,33 @@ export default function Dashboard() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
+        {stats.map((card) => (
+          <StatCard
+            key={card.title}
+            title={card.title}
+            value={card.value}
+            change={card.change}
+            icon={card.icon}
+            color={card.color}
+          />
+        ))}
+      </div>
 
+      {/* Charts + Activity */}
+      <div className="grid lg:grid-cols-2 gap-8 mt-10">
+
+        {/* Fleet Chart */}
+        <div
+          className={`rounded-3xl shadow-lg p-8 ${
+            darkMode ? "bg-slate-800" : "bg-white"
+          }`}
+        >
+          <h2
+            className={`text-xl font-bold mb-6 ${
+              darkMode ? "text-white" : "text-slate-700"
+            }`}
+          >
+            Fleet Utilization
           </h2>
 
           <div className="h-80">
