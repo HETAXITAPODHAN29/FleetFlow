@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
+import AddVehicleModal from "../components/AddVehicleModal";
 
 import {
   FaTruck,
@@ -99,10 +100,10 @@ export default function Dashboard() {
       <Navbar title="Dashboard" />
 
       {/* Hero Section */}
-      <Hero
-        onAddVehicle={handleAddVehicle}
-        onViewReports={handleViewReports}
-      />
+<Hero
+  onAddVehicle={() => setShowAddVehicle(true)}
+  onViewReports={() => alert("Reports feature coming soon!")}
+/>
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
