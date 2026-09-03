@@ -101,7 +101,9 @@ export default function Dashboard() {
       {/* Hero Section */}
 <Hero
   onAddVehicle={() => setShowAddVehicle(true)}
-  onViewReports={() => alert("Reports feature coming soon!")}
+  onViewReports={() => {
+    console.log("View Reports clicked");
+  }}
 />
 
       {/* Stat Cards */}
