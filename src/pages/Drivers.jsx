@@ -17,6 +17,9 @@ import DriverViewModal from "../components/DriverViewModal";
 
 export default function Drivers() {
   // -------------------- State --------------------
+  const [search, setSearch] = useState("");
+const [statusFilter, setStatusFilter] = useState("All");
+const [selectedDriver, setSelectedDriver] = useState(null);
 
   // -------------------- Statistics --------------------
 
