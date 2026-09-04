@@ -6,7 +6,11 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-
+const data = [
+  { name: "Active", value: 128 },
+  { name: "Maintenance", value: 12 },
+  { name: "Inactive", value: 18 },
+];
 
 const COLORS = [
   "#2563eb",
