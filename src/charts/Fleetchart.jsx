@@ -10,9 +10,7 @@ import {
 
 const data = [
   { month: "Jan", vehicles: 80 },
-  { month: "Feb", vehicles: 92 },
-  { month: "Mar", vehicles: 105 },
-  { month: "Apr", vehicles: 120 },
+  
   { month: "May", vehicles: 118 },
   { month: "Jun", vehicles: 128 },
 ];
