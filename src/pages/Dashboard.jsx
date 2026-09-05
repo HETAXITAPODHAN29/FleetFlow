@@ -95,18 +95,22 @@ export default function Dashboard() {
           : "bg-slate-100 text-slate-900"
       }`}
     >
-      {/* Navbar */}
+      {/* =========================
+          NAVBAR
+      ========================= */}
       <Navbar title="Dashboard" />
 
-      {/* Hero Section */}
-<Hero
-  onAddVehicle={() => setShowAddVehicle(true)}
-  onViewReports={() => {
-    console.log("View Reports clicked");
-  }}
-/>
+      {/* =========================
+          HERO SECTION
+      ========================= */}
+      <Hero
+        onAddVehicle={handleAddVehicle}
+        onViewReports={handleViewReports}
+      />
 
-      {/* Stat Cards */}
+      {/* =========================
+          STAT CARDS
+      ========================= */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mt-8">
         {stats.map((card) => (
           <StatCard
@@ -120,7 +124,9 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Charts + Activity */}
+      {/* =========================
+          CHARTS + ACTIVITY
+      ========================= */}
       <div className="grid lg:grid-cols-2 gap-8 mt-10">
 
         {/* Fleet Chart */}
@@ -146,20 +152,22 @@ export default function Dashboard() {
         <ActivityTimeline />
       </div>
 
-      {/* Quick Actions */}
+      {/* =========================
+          QUICK ACTIONS
+      ========================= */}
       <div className="mt-8">
         <QuickActions />
       </div>
 
-   {showAddVehicle && (
-  <AddVehicleModal
-    onClose={() => setShowAddVehicle(false)}
-    onAdd={(vehicle) => {
-      console.log("New Vehicle:", vehicle);
-      setShowAddVehicle(false);
-    }}
-  />
-)}
+      {/* =========================
+          ADD VEHICLE MODAL
+      ========================= */}
+      {showAddVehicleModal && (
+        <AddVehicleModal
+          onClose={() => setShowAddVehicleModal(false)}
+          onAdd={handleVehicleCreated}
+        />
+      )}
     </div>
   );
 }
