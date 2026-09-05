@@ -32,7 +32,15 @@ export default function Hero({
               </span>
             </div>
 
-       
+            {/* Heading */}
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-5">
+              Welcome Back,
+              <br />
+              <span className="text-blue-100">
+                Fleet Manager
+              </span>{" "}
+              👋
+            </h1>
 
             {/* Description */}
             <p className="text-blue-100 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
