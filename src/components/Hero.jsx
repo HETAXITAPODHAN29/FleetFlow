@@ -24,13 +24,7 @@ export default function Hero({
           {/* ================= LEFT ================= */}
           <div>
 
-            {/* Small badge */}
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 backdrop-blur-md px-4 py-2 rounded-full mb-6">
-              <span className="text-lg">🚀</span>
-              <span className="text-sm font-medium text-blue-100">
-                Fleet Management Dashboard
-              </span>
-            </div>
+
 
             {/* Heading */}
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight mb-5">
