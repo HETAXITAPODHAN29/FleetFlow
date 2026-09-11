@@ -162,12 +162,3 @@ export default function Dashboard() {
       {/* =========================
           ADD VEHICLE MODAL
       ========================= */}
-      {showAddVehicleModal && (
-        <AddVehicleModal
-          onClose={() => setShowAddVehicleModal(false)}
-          onAdd={handleVehicleCreated}
-        />
-      )}
-    </div>
-  );
-}
