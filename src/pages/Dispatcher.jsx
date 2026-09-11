@@ -4,17 +4,6 @@ import DispatchViewModal from "../components/DispatchViewModal";
 import EditDispatchModal from "../components/EditDispatchModal";
 import CreateDispatchModal from "../components/CreateDispatchModal";
 
-import {
-  FaRoute,
-  FaCalendarAlt,
-  FaTruck,
-  FaCheckCircle,
-  FaSearch,
-  FaEye,
-  FaEdit,
-  FaTrash,
-  FaPlus,
-} from "react-icons/fa";
 
 import dispatches from "../data/dispatches";
 
