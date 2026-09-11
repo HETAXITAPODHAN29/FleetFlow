@@ -21,7 +21,15 @@ import dispatches from "../data/dispatches";
 export default function Dispatcher() {
   // -------------------- States --------------------
 
+  const [search, setSearch] = useState("");
 
+  const [dispatchList, setDispatchList] = useState(dispatches);
+
+  const [selectedTrip, setSelectedTrip] = useState(null);
+
+  const [editingTrip, setEditingTrip] = useState(null);
+
+  const [deleteTrip, setDeleteTrip] = useState(null);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
 
