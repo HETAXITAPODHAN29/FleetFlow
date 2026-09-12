@@ -328,28 +328,7 @@ export default function MaintenanceModal({
                 </button>
 
                 <button
-                  type="submit"
-                  className="px-6 py-3 rounded-xl bg-blue-600
-                  hover:bg-blue-700 text-white font-medium
-                  shadow-lg transition hover:scale-105"
-                >
-                  Save Changes
-                </button>
-              </>
-            ) : (
-              <button
-                type="button"
-                onClick={() => {
-                  // This will be handled from the parent
-                  onClose();
-                }}
-                className="flex items-center gap-2 px-6 py-3
-                rounded-xl bg-blue-600 hover:bg-blue-700
-                text-white font-medium shadow-lg transition"
-              >
-                <FaEdit />
-                Close
-              </button>
+
             )}
 
           </div>
