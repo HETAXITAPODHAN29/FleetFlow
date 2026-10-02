@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose"); // 1️⃣ ADD THIS LINE
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 const vehicleRoutes = require("./routes/vehicleRoutes");
@@ -13,9 +13,13 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// 2️⃣ ADD THIS MONGODB CONNECTION BLOCK HERE
-const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/fleetflow";
-mongoose.connect(mongoURI)
+// MongoDB Connection
+const mongoURI =
+  process.env.MONGO_URI ||
+  "mongodb://127.0.0.1:27017/fleetflow";
+
+mongoose
+  .connect(mongoURI)
   .then(() => {
     console.log("🚀 Successfully connected to MongoDB!");
   })
@@ -29,11 +33,13 @@ app.use("/api/vehicles", vehicleRoutes);
 // Test route
 app.get("/", (req, res) => {
   res.json({
-    message: "FleetFlow Backend is running!"
+    message: "FleetFlow Backend is running!",
   });
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`FleetFlow backend running on http://localhost:${PORT}`);
+  console.log(
+    `FleetFlow backend running on http://localhost:${PORT}`
+  );
 });
