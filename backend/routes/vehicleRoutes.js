@@ -1,28 +1,28 @@
 const express = require("express");
 
+const {
+  getVehicles,
+  getVehicle,
+  createVehicle,
+  updateVehicle,
+  deleteVehicle,
+} = require("../controllers/vehicleController");
+
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json([
-    {
-      id: 1,
-      model: "Tata Ace",
-      number: "GJ01AB1234",
-      driver: "Rahul",
-      location: "Ahmedabad",
-      fuel: 78,
-      status: "Active"
-    },
-    {
-      id: 2,
-      model: "Ashok Leyland",
-      number: "GJ05CD5678",
-      driver: "Amit",
-      location: "Surat",
-      fuel: 62,
-      status: "Maintenance"
-    }
-  ]);
-});
+// GET all vehicles
+router.get("/", getVehicles);
+
+// GET one vehicle
+router.get("/:id", getVehicle);
+
+// CREATE vehicle
+router.post("/", createVehicle);
+
+// UPDATE vehicle
+router.put("/:id", updateVehicle);
+
+// DELETE vehicle
+router.delete("/:id", deleteVehicle);
 
 module.exports = router;
