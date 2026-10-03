@@ -1,53 +1,47 @@
 import { FaTimes } from "react-icons/fa";
 
-export default function EditDriverModal({
-  driver,
-  onClose,
-  onSave,
-}) {
-  if (!driver) return null;
+export default function AddDriverModal({ onClose, onAdd }) {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+    const formData = new FormData(e.target);
 
-  const formData = new FormData(e.target);
+    const newDriver = {
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+      email: formData.get("email"),
+      license: formData.get("license"),
+      experience: Number(formData.get("experience")),
+      vehicle: formData.get("vehicle"),
+      status: formData.get("status"),
+      trips: Number(formData.get("trips")),
+      rating: Number(formData.get("rating")),
+    };
 
-  const updatedDriver = {
-    name: formData.get("name"),
-    phone: formData.get("phone"),
-    email: formData.get("email"),
-    vehicle: formData.get("vehicle"),
-    license: formData.get("license"),
-    status: formData.get("status"),
-    trips: Number(formData.get("trips")),
-    rating: Number(formData.get("rating")),
-    experience: driver.experience,
-  };
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/drivers",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newDriver),
+        }
+      );
 
-  try {
-    const response = await fetch(
-      `http://localhost:5000/api/drivers/${driver._id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedDriver),
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to add driver");
       }
-    );
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Failed to update driver");
+      onAdd(data.driver);
+    } catch (error) {
+      console.error("Error adding driver:", error);
+      alert("Failed to add driver");
     }
-
-    onSave(data.driver);
-  } catch (error) {
-    console.error("Error updating driver:", error);
-    alert("Failed to update driver");
-  }
-};
+  };
 
   return (
     <div
@@ -55,7 +49,6 @@ export default function EditDriverModal({
       flex items-center justify-center p-4"
       onClick={onClose}
     >
-
       <div
         className="bg-white w-full max-w-2xl rounded-3xl
         shadow-2xl p-8 max-h-[90vh] overflow-y-auto"
@@ -63,16 +56,15 @@ export default function EditDriverModal({
       >
 
         {/* Header */}
-
         <div className="flex justify-between items-center mb-8">
 
           <div>
             <h2 className="text-3xl font-bold text-slate-800">
-              Edit Driver
+              Add Driver
             </h2>
 
             <p className="text-slate-500 mt-1">
-              Update driver information.
+              Add a new driver to your fleet.
             </p>
           </div>
 
@@ -87,15 +79,12 @@ export default function EditDriverModal({
 
         </div>
 
-
         {/* Form */}
-
         <form onSubmit={handleSubmit}>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             {/* Name */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Driver Name
@@ -103,7 +92,6 @@ export default function EditDriverModal({
 
               <input
                 name="name"
-                defaultValue={driver.name}
                 required
                 className="w-full px-4 py-3 rounded-xl border
                 border-slate-200 focus:ring-2 focus:ring-blue-500
@@ -111,9 +99,7 @@ export default function EditDriverModal({
               />
             </div>
 
-
             {/* Phone */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Phone
@@ -121,7 +107,6 @@ export default function EditDriverModal({
 
               <input
                 name="phone"
-                defaultValue={driver.phone}
                 required
                 className="w-full px-4 py-3 rounded-xl border
                 border-slate-200 focus:ring-2 focus:ring-blue-500
@@ -129,9 +114,7 @@ export default function EditDriverModal({
               />
             </div>
 
-
             {/* Email */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Email
@@ -140,34 +123,13 @@ export default function EditDriverModal({
               <input
                 name="email"
                 type="email"
-                defaultValue={driver.email || ""}
                 className="w-full px-4 py-3 rounded-xl border
                 border-slate-200 focus:ring-2 focus:ring-blue-500
                 outline-none"
               />
             </div>
-
-
-            {/* Vehicle */}
-
-            <div>
-              <label className="block text-sm font-medium text-slate-600 mb-2">
-                Assigned Vehicle
-              </label>
-
-              <input
-                name="vehicle"
-                defaultValue={driver.vehicle}
-                required
-                className="w-full px-4 py-3 rounded-xl border
-                border-slate-200 focus:ring-2 focus:ring-blue-500
-                outline-none"
-              />
-            </div>
-
 
             {/* License */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 License Number
@@ -175,16 +137,46 @@ export default function EditDriverModal({
 
               <input
                 name="license"
-                defaultValue={driver.license || ""}
+                required
                 className="w-full px-4 py-3 rounded-xl border
                 border-slate-200 focus:ring-2 focus:ring-blue-500
                 outline-none"
               />
             </div>
 
+            {/* Experience */}
+            <div>
+              <label className="block text-sm font-medium text-slate-600 mb-2">
+                Experience (Years)
+              </label>
+
+              <input
+                name="experience"
+                type="number"
+                min="0"
+                required
+                className="w-full px-4 py-3 rounded-xl border
+                border-slate-200 focus:ring-2 focus:ring-blue-500
+                outline-none"
+              />
+            </div>
+
+            {/* Vehicle */}
+            <div>
+              <label className="block text-sm font-medium text-slate-600 mb-2">
+                Assigned Vehicle
+              </label>
+
+              <input
+                name="vehicle"
+                required
+                className="w-full px-4 py-3 rounded-xl border
+                border-slate-200 focus:ring-2 focus:ring-blue-500
+                outline-none"
+              />
+            </div>
 
             {/* Status */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Status
@@ -192,7 +184,7 @@ export default function EditDriverModal({
 
               <select
                 name="status"
-                defaultValue={driver.status}
+                defaultValue="Available"
                 className="w-full px-4 py-3 rounded-xl border
                 border-slate-200 focus:ring-2 focus:ring-blue-500
                 outline-none bg-white"
@@ -203,9 +195,7 @@ export default function EditDriverModal({
               </select>
             </div>
 
-
             {/* Trips */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Total Trips
@@ -215,16 +205,14 @@ export default function EditDriverModal({
                 name="trips"
                 type="number"
                 min="0"
-                defaultValue={driver.trips || 0}
+                defaultValue="0"
                 className="w-full px-4 py-3 rounded-xl border
                 border-slate-200 focus:ring-2 focus:ring-blue-500
                 outline-none"
               />
             </div>
 
-
             {/* Rating */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Rating
@@ -236,7 +224,7 @@ export default function EditDriverModal({
                 min="0"
                 max="5"
                 step="0.1"
-                defaultValue={driver.rating || 0}
+                defaultValue="0"
                 className="w-full px-4 py-3 rounded-xl border
                 border-slate-200 focus:ring-2 focus:ring-blue-500
                 outline-none"
@@ -245,9 +233,7 @@ export default function EditDriverModal({
 
           </div>
 
-
           {/* Buttons */}
-
           <div className="flex justify-end gap-4 mt-8">
 
             <button
@@ -266,15 +252,13 @@ export default function EditDriverModal({
               bg-blue-600 hover:bg-blue-700 text-white
               font-medium shadow-lg transition hover:scale-105"
             >
-              Save Changes
+              Add Driver
             </button>
 
           </div>
 
         </form>
-
       </div>
-
     </div>
   );
 }

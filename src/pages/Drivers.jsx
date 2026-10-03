@@ -6,12 +6,13 @@ import {
   FaSearch,
   FaEye,
   FaEdit,
+  FaPlus,
 } from "react-icons/fa";
 
-import { useState, useEffect } from "react";
 import DriverDetailsModal from "../components/DriverDetailsModal";
 import EditDriverModal from "../components/EditDriverModal";
 import DriverViewModal from "../components/DriverViewModal";
+import AddDriverModal from "../components/AddDriverModal";
 
 
 export default function Drivers() {
@@ -21,7 +22,7 @@ const [search, setSearch] = useState("");
 const [statusFilter, setStatusFilter] = useState("All");
 const [selectedDriver, setSelectedDriver] = useState(null);
 const [editingDriver, setEditingDriver] = useState(null);
-
+const [showAddDriver, setShowAddDriver] = useState(false);
 const [driverList, setDriverList] = useState([]);
 
 useEffect(() => {
@@ -79,7 +80,7 @@ const offDutyDrivers = driverList.filter(
   ];
 
   // -------------------- Filter Logic --------------------
-  
+
 const filteredDrivers = driverList.filter((driver) => {
     const matchesSearch =
       driver.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -100,17 +101,30 @@ const filteredDrivers = driverList.filter((driver) => {
 
       {/* Header */}
 
-      <div className="mb-8">
+<div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
 
-        <h1 className="text-4xl font-bold text-slate-800">
-          Drivers
-        </h1>
+  <div>
+    <h1 className="text-4xl font-bold text-slate-800">
+      Drivers
+    </h1>
 
-        <p className="text-slate-500 mt-2">
-          Manage drivers, assignments and performance.
-        </p>
+    <p className="text-slate-500 mt-2">
+      Manage drivers, assignments and performance.
+    </p>
+  </div>
 
-      </div>
+  <button
+    onClick={() => setShowAddDriver(true)}
+    className="flex items-center gap-2 px-5 py-3
+    bg-blue-600 hover:bg-blue-700 text-white
+    rounded-xl font-medium shadow-lg
+    transition hover:scale-105"
+  >
+    <FaPlus />
+    Add Driver
+  </button>
+
+</div>
 
 
       {/* Statistics */}
@@ -235,7 +249,7 @@ const filteredDrivers = driverList.filter((driver) => {
             {filteredDrivers.map((driver) => (
 
               <div
-                key={driver.id}
+                key={driver._id}
                 className="flex items-center justify-between
                 py-5 border-b last:border-b-0
                 hover:bg-slate-50 transition rounded-xl px-3"
@@ -343,11 +357,28 @@ const filteredDrivers = driverList.filter((driver) => {
           driver={editingDriver}
           onClose={() => setEditingDriver(null)}
           onSave={(updatedDriver) => {
-            console.log("Updated Driver:", updatedDriver);
+            setDriverList((prev) =>
+              prev.map((driver) =>
+                driver._id === updatedDriver._id
+                  ? updatedDriver
+                  : driver
+              )
+            );
+
             setEditingDriver(null);
           }}
         />
-        
+
+{showAddDriver && (
+  <AddDriverModal
+    onClose={() => setShowAddDriver(false)}
+    onAdd={(newDriver) => {
+      setDriverList((prev) => [...prev, newDriver]);
+      setShowAddDriver(false);
+    }}
+  />
+)}
+
     </div>
   );
 }
