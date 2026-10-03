@@ -2,9 +2,10 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const driverRoutes = require("./routes/driverRoutes");
 
+const driverRoutes = require("./routes/driverRoutes");
 const vehicleRoutes = require("./routes/vehicleRoutes");
+const maintenanceRoutes = require("./routes/maintenanceRoutes");
 
 const app = express();
 
@@ -14,6 +15,7 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 app.use("/api/drivers", driverRoutes);
+app.use("/api/maintenance", maintenanceRoutes);
 // MongoDB Connection
 const mongoURI =
   process.env.MONGO_URI ||

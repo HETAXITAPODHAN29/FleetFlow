@@ -7,7 +7,10 @@ import {
   FaEye,
   FaEdit,
   FaPlus,
+  FaTrash,
 } from "react-icons/fa";
+
+import { useState, useEffect } from "react";
 
 import DriverDetailsModal from "../components/DriverDetailsModal";
 import EditDriverModal from "../components/EditDriverModal";
@@ -35,6 +38,36 @@ useEffect(() => {
       console.error("Error fetching drivers:", error);
     });
 }, []);
+
+const handleDeleteDriver = async (driverId) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this driver?"
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/drivers/${driverId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to delete driver");
+    }
+
+    setDriverList((prev) =>
+      prev.filter((driver) => driver._id !== driverId)
+    );
+  } catch (error) {
+    console.error("Error deleting driver:", error);
+    alert("Failed to delete driver");
+  }
+};
 
   // -------------------- Statistics --------------------
 
@@ -319,6 +352,16 @@ const filteredDrivers = driverList.filter((driver) => {
               >
                 <FaEdit />
               </button>
+
+              <button
+  onClick={() => handleDeleteDriver(driver._id)}
+  className="w-10 h-10 rounded-xl bg-slate-100
+  hover:bg-red-500 hover:text-white
+  flex items-center justify-center transition"
+  title="Delete Driver"
+>
+  <FaTrash />
+</button>
                 </div>
 
               </div>
