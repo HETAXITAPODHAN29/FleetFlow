@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddVehicleModal from "../components/AddVehicleModal";
 import EditVehicleModal from "../components/EditVehicleModal";
 import DeleteVehicleModal from "../components/DeleteVehicleModal";
@@ -22,7 +22,7 @@ export default function Vehicles() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [sortBy, setSortBy] = useState("default");
   const [showAddModal, setShowAddModal] = useState(false);
-  const [vehicleList, setVehicleList] = useState(vehicles);
+  const [vehicleList, setVehicleList] = useState([]);
   const [selectedEditVehicle, setSelectedEditVehicle] = useState(null);
   const [selectedDeleteVehicle, setSelectedDeleteVehicle] = useState(null);
   // Vehicle selected for modal
@@ -70,6 +70,19 @@ export default function Vehicles() {
       color: "bg-red-500",
     },
   ];
+
+  // -------------------- Fetch Vehicles from Backend --------------------
+
+useEffect(() => {
+  fetch("http://localhost:5000/api/vehicles")
+    .then((response) => response.json())
+    .then((data) => {
+      setVehicleList(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching vehicles:", error);
+    });
+}, []);
 
   // -------------------- Filter --------------------
 

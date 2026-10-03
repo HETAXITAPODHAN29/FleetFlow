@@ -1,13 +1,12 @@
 import { FaTimes } from "react-icons/fa";
 
 export default function AddVehicleModal({ onClose, onAdd }) {
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
 
     const newVehicle = {
-      id: Date.now(),
       model: formData.get("model"),
       number: formData.get("number"),
       driver: formData.get("driver"),
@@ -16,7 +15,26 @@ export default function AddVehicleModal({ onClose, onAdd }) {
       status: formData.get("status"),
     };
 
-    onAdd(newVehicle);
+    try {
+      const response = await fetch("http://localhost:5000/api/vehicles", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newVehicle),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to add vehicle");
+      }
+
+      onAdd(data);
+    } catch (error) {
+      console.error("Error adding vehicle:", error);
+      alert(error.message);
+    }
   };
 
   return (
@@ -28,11 +46,8 @@ export default function AddVehicleModal({ onClose, onAdd }) {
         onClick={(e) => e.stopPropagation()}
         className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl p-8"
       >
-
         {/* Header */}
-
         <div className="flex justify-between items-center mb-8">
-
           <div>
             <h2 className="text-3xl font-bold text-slate-800">
               Add New Vehicle
@@ -49,17 +64,13 @@ export default function AddVehicleModal({ onClose, onAdd }) {
           >
             <FaTimes />
           </button>
-
         </div>
 
         {/* Form */}
-
         <form onSubmit={handleSubmit}>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             {/* Model */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Vehicle Model
@@ -74,7 +85,6 @@ export default function AddVehicleModal({ onClose, onAdd }) {
             </div>
 
             {/* Number */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Vehicle Number
@@ -89,7 +99,6 @@ export default function AddVehicleModal({ onClose, onAdd }) {
             </div>
 
             {/* Driver */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Driver
@@ -104,7 +113,6 @@ export default function AddVehicleModal({ onClose, onAdd }) {
             </div>
 
             {/* Location */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Location
@@ -119,7 +127,6 @@ export default function AddVehicleModal({ onClose, onAdd }) {
             </div>
 
             {/* Fuel */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Fuel Level (%)
@@ -137,7 +144,6 @@ export default function AddVehicleModal({ onClose, onAdd }) {
             </div>
 
             {/* Status */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Status
@@ -156,9 +162,7 @@ export default function AddVehicleModal({ onClose, onAdd }) {
           </div>
 
           {/* Buttons */}
-
           <div className="flex justify-end gap-4 mt-8">
-
             <button
               type="button"
               onClick={onClose}
@@ -173,11 +177,8 @@ export default function AddVehicleModal({ onClose, onAdd }) {
             >
               Add Vehicle
             </button>
-
           </div>
-
         </form>
-
       </div>
     </div>
   );

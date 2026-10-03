@@ -2,10 +2,9 @@ const express = require("express");
 
 const {
   getVehicles,
-  getVehicle,
+  getVehicleById,
   createVehicle,
-  updateVehicle,
-  deleteVehicle,
+  deleteVehicle
 } = require("../controllers/VehicleController");
 
 const router = express.Router();
@@ -13,14 +12,11 @@ const router = express.Router();
 // GET all vehicles
 router.get("/", getVehicles);
 
-// GET one vehicle
-router.get("/:id", getVehicle);
+// GET vehicle by ID
+router.get("/:id", getVehicleById);
 
 // CREATE vehicle
 router.post("/", createVehicle);
-
-// UPDATE vehicle
-router.put("/:id", updateVehicle);
 
 // DELETE vehicle
 router.delete("/:id", deleteVehicle);
