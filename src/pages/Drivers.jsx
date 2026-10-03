@@ -8,8 +8,7 @@ import {
   FaEdit,
 } from "react-icons/fa";
 
-import { useState } from "react";
-import drivers from "../data/drivers";
+import { useState, useEffect } from "react";
 import DriverDetailsModal from "../components/DriverDetailsModal";
 import EditDriverModal from "../components/EditDriverModal";
 import DriverViewModal from "../components/DriverViewModal";
@@ -18,26 +17,39 @@ import DriverViewModal from "../components/DriverViewModal";
 export default function Drivers() {
   // -------------------- State --------------------
 
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [selectedDriver, setSelectedDriver] = useState(null);
-  const [editingDriver, setEditingDriver] = useState(null);
+const [search, setSearch] = useState("");
+const [statusFilter, setStatusFilter] = useState("All");
+const [selectedDriver, setSelectedDriver] = useState(null);
+const [editingDriver, setEditingDriver] = useState(null);
+
+const [driverList, setDriverList] = useState([]);
+
+useEffect(() => {
+  fetch("http://localhost:5000/api/drivers")
+    .then((response) => response.json())
+    .then((data) => {
+      setDriverList(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching drivers:", error);
+    });
+}, []);
 
   // -------------------- Statistics --------------------
 
-  const totalDrivers = drivers.length;
+const totalDrivers = driverList.length;
 
-  const availableDrivers = drivers.filter(
+const availableDrivers = driverList.filter(
     (driver) => driver.status === "Available"
   ).length;
 
-  const onTripDrivers = drivers.filter(
-    (driver) => driver.status === "On Trip"
-  ).length;
+const onTripDrivers = driverList.filter(
+  (driver) => driver.status === "On Trip"
+).length;
 
-  const offDutyDrivers = drivers.filter(
-    (driver) => driver.status === "Off Duty"
-  ).length;
+const offDutyDrivers = driverList.filter(
+  (driver) => driver.status === "Off Duty"
+).length;
 
   const stats = [
     {
@@ -67,8 +79,8 @@ export default function Drivers() {
   ];
 
   // -------------------- Filter Logic --------------------
-
-  const filteredDrivers = drivers.filter((driver) => {
+  
+const filteredDrivers = driverList.filter((driver) => {
     const matchesSearch =
       driver.name.toLowerCase().includes(search.toLowerCase()) ||
       driver.vehicle.toLowerCase().includes(search.toLowerCase()) ||

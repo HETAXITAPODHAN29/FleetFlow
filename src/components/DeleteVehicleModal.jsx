@@ -7,6 +7,32 @@ export default function DeleteVehicleModal({
 }) {
   if (!vehicle) return null;
 
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/vehicles/${vehicle._id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to delete vehicle"
+        );
+      }
+
+      // Tell Vehicles.jsx that deletion was successful
+      onConfirm(vehicle._id);
+
+    } catch (error) {
+      console.error("Error deleting vehicle:", error);
+      alert(error.message);
+    }
+  };
+
   return (
     <div
       onClick={onClose}
@@ -52,7 +78,7 @@ export default function DeleteVehicleModal({
           </button>
 
           <button
-            onClick={onConfirm}
+            onClick={handleDelete}
             className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-red-500 hover:bg-red-600 text-white font-medium transition hover:scale-105"
           >
             <FaTrash />

@@ -257,7 +257,7 @@ useEffect(() => {
           {sortedVehicles.map((vehicle) => (
 
             <VehicleCard
-              key={vehicle.id}
+              key={vehicle._id}
               vehicle={vehicle}
               onView={() => setSelectedVehicle(vehicle)}
               onEdit={() => setSelectedEditVehicle(vehicle)}
@@ -327,15 +327,13 @@ onSave={(updatedVehicle) => {
         <DeleteVehicleModal
           vehicle={selectedDeleteVehicle}
           onClose={() => setSelectedDeleteVehicle(null)}
-          onConfirm={() => {
-            setVehicleList((prev) =>
-              prev.filter(
-                (vehicle) => vehicle.id !== selectedDeleteVehicle.id
-              )
-            );
+         onConfirm={(vehicleId) => {
+  setVehicleList((prev) =>
+    prev.filter((vehicle) => vehicle._id !== vehicleId)
+  );
 
-            setSelectedDeleteVehicle(null);
-          }}
+  setSelectedDeleteVehicle(null);
+}}
         />
       )}
   
