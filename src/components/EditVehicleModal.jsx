@@ -7,13 +7,12 @@ export default function EditVehicleModal({
 }) {
   if (!vehicle) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target);
 
     const updatedVehicle = {
-      ...vehicle,
       model: formData.get("model"),
       number: formData.get("number"),
       driver: formData.get("driver"),
@@ -22,7 +21,33 @@ export default function EditVehicleModal({
       status: formData.get("status"),
     };
 
-    onSave(updatedVehicle);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/vehicles/${vehicle._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedVehicle),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to update vehicle"
+        );
+      }
+
+      // Send updated vehicle back to Vehicles page
+      onSave(data.vehicle);
+
+    } catch (error) {
+      console.error("Error updating vehicle:", error);
+      alert(error.message);
+    }
   };
 
   return (
@@ -30,16 +55,13 @@ export default function EditVehicleModal({
       onClick={onClose}
       className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
     >
-
       {/* Modal */}
-
       <div
         onClick={(e) => e.stopPropagation()}
         className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl p-8"
       >
 
         {/* Header */}
-
         <div className="flex justify-between items-center mb-8">
 
           <div>
@@ -62,13 +84,11 @@ export default function EditVehicleModal({
         </div>
 
         {/* Form */}
-
         <form onSubmit={handleSubmit}>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
             {/* Vehicle Model */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Vehicle Model
@@ -83,7 +103,6 @@ export default function EditVehicleModal({
             </div>
 
             {/* Vehicle Number */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Vehicle Number
@@ -98,7 +117,6 @@ export default function EditVehicleModal({
             </div>
 
             {/* Driver */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Driver
@@ -113,7 +131,6 @@ export default function EditVehicleModal({
             </div>
 
             {/* Location */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Location
@@ -128,7 +145,6 @@ export default function EditVehicleModal({
             </div>
 
             {/* Fuel */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Fuel Level (%)
@@ -146,7 +162,6 @@ export default function EditVehicleModal({
             </div>
 
             {/* Status */}
-
             <div>
               <label className="block text-sm font-medium text-slate-600 mb-2">
                 Status
@@ -166,7 +181,6 @@ export default function EditVehicleModal({
           </div>
 
           {/* Buttons */}
-
           <div className="flex justify-end gap-4 mt-8">
 
             <button
@@ -189,7 +203,6 @@ export default function EditVehicleModal({
         </form>
 
       </div>
-
     </div>
   );
 }

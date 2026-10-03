@@ -309,17 +309,17 @@ useEffect(() => {
         <EditVehicleModal
           vehicle={selectedEditVehicle}
           onClose={() => setSelectedEditVehicle(null)}
-          onSave={(updatedVehicle) => {
-            setVehicleList((prev) =>
-              prev.map((vehicle) =>
-                vehicle.id === updatedVehicle.id
-                  ? updatedVehicle
-                  : vehicle
-              )
-            );
+onSave={(updatedVehicle) => {
+  setVehicleList((prev) =>
+    prev.map((vehicle) =>
+      vehicle._id === updatedVehicle._id
+        ? updatedVehicle
+        : vehicle
+    )
+  );
 
-            setSelectedEditVehicle(null);
-          }}
+  setSelectedEditVehicle(null);
+}}
         />
       )}
 

@@ -30,7 +30,7 @@ export default function AddVehicleModal({ onClose, onAdd }) {
         throw new Error(data.message || "Failed to add vehicle");
       }
 
-      onAdd(data);
+      onAdd(data.vehicle);
     } catch (error) {
       console.error("Error adding vehicle:", error);
       alert(error.message);
