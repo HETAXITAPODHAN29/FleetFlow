@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import MaintenanceModal from "../components/MaintenanceModal";
 import CreateMaintenanceModal from "../components/CreateMaintenanceModal";
@@ -15,99 +15,20 @@ import {
   FaPlus,
 } from "react-icons/fa";
 
-// -------------------- Maintenance Data --------------------
-
-const maintenanceData = [
-  {
-    id: 1,
-    maintenanceId: "MNT-001",
-    vehicle: "Tata 407",
-    vehicleId: "FV-214",
-    task: "Brake Inspection",
-    description: "Complete brake system inspection and testing.",
-    priority: "High",
-    status: "Scheduled",
-    date: "2026-08-12",
-    cost: 2500,
-    technician: "Rajesh Patel",
-  },
-
-  {
-    id: 2,
-    maintenanceId: "MNT-002",
-    vehicle: "Ashok Leyland",
-    vehicleId: "FV-318",
-    task: "Tire Replacement",
-    description: "Replace worn-out front tires.",
-    priority: "Medium",
-    status: "In Progress",
-    date: "2026-08-13",
-    cost: 8500,
-    technician: "Amit Shah",
-  },
-
-  {
-    id: 3,
-    maintenanceId: "MNT-003",
-    vehicle: "Mahindra Bolero",
-    vehicleId: "FV-102",
-    task: "Software Update",
-    description: "Update vehicle tracking and diagnostic software.",
-    priority: "Low",
-    status: "Completed",
-    date: "2026-08-10",
-    cost: 1500,
-    technician: "Karan Mehta",
-  },
-
-  {
-    id: 4,
-    maintenanceId: "MNT-004",
-    vehicle: "Tata Ace",
-    vehicleId: "FV-125",
-    task: "Engine Service",
-    description: "Routine engine inspection and oil replacement.",
-    priority: "Medium",
-    status: "Scheduled",
-    date: "2026-08-15",
-    cost: 4200,
-    technician: "Rajesh Patel",
-  },
-
-  {
-    id: 5,
-    maintenanceId: "MNT-005",
-    vehicle: "Eicher Pro",
-    vehicleId: "FV-201",
-    task: "Oil Change",
-    description: "Engine oil and oil filter replacement.",
-    priority: "Low",
-    status: "Completed",
-    date: "2026-08-08",
-    cost: 3200,
-    technician: "Amit Shah",
-  },
-
-  {
-    id: 6,
-    maintenanceId: "MNT-006",
-    vehicle: "BharatBenz",
-    vehicleId: "FV-330",
-    task: "Battery Inspection",
-    description: "Check battery health and electrical connections.",
-    priority: "High",
-    status: "In Progress",
-    date: "2026-08-14",
-    cost: 1800,
-    technician: "Karan Mehta",
-  },
-];
-
 // -------------------- Component --------------------
 
 export default function Maintenance() {
-  const [maintenanceList, setMaintenanceList] =
-    useState(maintenanceData);
+const [maintenanceList, setMaintenanceList] = useState([]);
+useEffect(() => {
+  fetch("http://localhost:5000/api/maintenance")
+    .then((response) => response.json())
+    .then((data) => {
+      setMaintenanceList(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching maintenance records:", error);
+    });
+}, []);
 
   const [search, setSearch] = useState("");
 
@@ -184,27 +105,76 @@ export default function Maintenance() {
 
   // -------------------- Delete --------------------
 
-  const handleDelete = (item) => {
+const handleDelete = async (item) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this maintenance record?"
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/maintenance/${item._id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to delete maintenance record"
+      );
+    }
+
     setMaintenanceList((currentItems) =>
       currentItems.filter(
-        (maintenance) => maintenance.id !== item.id
+        (maintenance) => maintenance._id !== item._id
       )
     );
-  };
-
+  } catch (error) {
+    console.error("Error deleting maintenance:", error);
+    alert("Failed to delete maintenance record");
+  }
+};
   // -------------------- Edit --------------------
 
-  const handleEditSave = (updatedMaintenance) => {
+const handleEditSave = async (updatedMaintenance) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/maintenance/${updatedMaintenance._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedMaintenance),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to update maintenance record"
+      );
+    }
+
     setMaintenanceList((currentItems) =>
       currentItems.map((item) =>
-        item.id === updatedMaintenance.id
-          ? updatedMaintenance
+        item._id === data.maintenance._id
+          ? data.maintenance
           : item
       )
     );
 
     setSelectedMaintenance(null);
-  };
+  } catch (error) {
+    console.error("Error updating maintenance:", error);
+    alert("Failed to update maintenance record");
+  }
+};
 
   // -------------------- Create --------------------
 

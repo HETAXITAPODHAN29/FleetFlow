@@ -12,6 +12,10 @@ const driverSchema = new mongoose.Schema(
       required: true,
     },
 
+    email: {
+  type: String,
+    },
+    
     license: {
       type: String,
       required: true,

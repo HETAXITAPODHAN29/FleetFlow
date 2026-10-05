@@ -5,26 +5,119 @@ export default function CreateDispatchModal({
   onCreate,
 }) {
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData(e.target);
+  const formData = new FormData(e.target);
 
-    const newTrip = {
-      id: Date.now(),
-      tripId: `TRIP-${Date.now().toString().slice(-4)}`,
-      source: formData.get("source"),
-      destination: formData.get("destination"),
-      vehicle: formData.get("vehicle"),
-      driver: formData.get("driver"),
-      date: formData.get("date"),
-      departureTime: formData.get("departureTime"),
-      status: formData.get("status"),
-      priority: formData.get("priority"),
-    };
-
-    onCreate(newTrip);
+  const newTrip = {
+    tripId: `TRIP-${Date.now().toString().slice(-4)}`,
+    source: formData.get("source"),
+    destination: formData.get("destination"),
+    vehicle: formData.get("vehicle"),
+    vehicleNumber: formData.get("vehicleNumber"),
+    driver: formData.get("driver"),
+    date: formData.get("date"),
+    departureTime: formData.get("departureTime"),
+    status: formData.get("status"),
+    priority: formData.get("priority"),
   };
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/dispatches",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTrip),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to create dispatch"
+      );
+    }
+
+    onCreate(data.dispatch);
+  } catch (error) {
+    console.error("Error creating dispatch:", error);
+    alert("Failed to create dispatch");
+  }
+};
+
+const handleEditSave = async (updatedTrip) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/dispatches/${updatedTrip._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTrip),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to update dispatch"
+      );
+    }
+
+    setDispatchList((currentTrips) =>
+      currentTrips.map((trip) =>
+        trip._id === data.dispatch._id
+          ? data.dispatch
+          : trip
+      )
+    );
+
+    setEditingTrip(null);
+  } catch (error) {
+    console.error("Error updating dispatch:", error);
+    alert("Failed to update dispatch");
+  }
+};
+
+const handleDelete = async () => {
+  if (!deleteTrip) return;
+
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/dispatches/${deleteTrip._id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to delete dispatch"
+      );
+    }
+
+    setDispatchList((currentTrips) =>
+      currentTrips.filter(
+        (trip) => trip._id !== deleteTrip._id
+      )
+    );
+
+    setDeleteTrip(null);
+  } catch (error) {
+    console.error("Error deleting dispatch:", error);
+    alert("Failed to delete dispatch");
+  }
+};
+
 
   return (
     <div
@@ -120,6 +213,21 @@ export default function CreateDispatchModal({
                 outline-none"
               />
             </div>
+
+            <div>
+  <label className="block text-sm font-medium text-slate-600 mb-2">
+    Vehicle Number
+  </label>
+
+  <input
+    name="vehicleNumber"
+    placeholder="e.g. GJ01AB1234"
+    required
+    className="w-full px-4 py-3 rounded-xl border
+    border-slate-200 focus:ring-2 focus:ring-blue-500
+    outline-none"
+  />
+</div>
 
             {/* Driver */}
 

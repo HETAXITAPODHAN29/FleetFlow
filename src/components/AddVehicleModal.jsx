@@ -26,10 +26,12 @@ export default function AddVehicleModal({ onClose, onAdd }) {
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to add vehicle");
-      }
-
+   if (!response.ok) {
+  throw new Error(
+    data.error || data.message || "Failed to add vehicle"
+  );
+}
+      
       onAdd(data.vehicle);
     } catch (error) {
       console.error("Error adding vehicle:", error);

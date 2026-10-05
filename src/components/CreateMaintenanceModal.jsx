@@ -4,28 +4,50 @@ export default function CreateMaintenanceModal({
   onClose,
   onCreate,
 }) {
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const formData = new FormData(e.target);
+  const formData = new FormData(e.target);
 
-    const newMaintenance = {
-      id: Date.now(),
-      maintenanceId: `MNT-${Date.now().toString().slice(-4)}`,
-
-      vehicle: formData.get("vehicle"),
-      vehicleId: formData.get("vehicleId"),
-      task: formData.get("task"),
-      description: formData.get("description"),
-      priority: formData.get("priority"),
-      status: formData.get("status"),
-      date: formData.get("date"),
-      technician: formData.get("technician"),
-      cost: Number(formData.get("cost")),
-    };
-
-    onCreate(newMaintenance);
+  const newMaintenance = {
+    maintenanceId: `MNT-${Date.now().toString().slice(-4)}`,
+    vehicle: formData.get("vehicle"),
+    vehicleId: formData.get("vehicleId"),
+    task: formData.get("task"),
+    description: formData.get("description"),
+    priority: formData.get("priority"),
+    status: formData.get("status"),
+    date: formData.get("date"),
+    technician: formData.get("technician"),
+    cost: Number(formData.get("cost")),
   };
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/maintenance",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newMaintenance),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to create maintenance record"
+      );
+    }
+
+    onCreate(data.maintenance);
+  } catch (error) {
+    console.error("Error creating maintenance:", error);
+    alert("Failed to create maintenance record");
+  }
+};
 
   return (
     <div

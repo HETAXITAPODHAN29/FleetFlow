@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaMoneyBillWave,
   FaGasPump,
@@ -12,43 +12,19 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-const initialExpenses = [
-  {
-    id: 1,
-    category: "Fuel",
-    amount: 6200,
-    date: "2026-08-10",
-    vehicle: "FV-214",
-    description: "Monthly fuel expense",
-  },
-  {
-    id: 2,
-    category: "Repairs",
-    amount: 3900,
-    date: "2026-08-08",
-    vehicle: "FV-318",
-    description: "Brake and tire repair",
-  },
-  {
-    id: 3,
-    category: "Insurance",
-    amount: 2100,
-    date: "2026-08-05",
-    vehicle: "FV-102",
-    description: "Vehicle insurance",
-  },
-  {
-    id: 4,
-    category: "Fuel",
-    amount: 4800,
-    date: "2026-08-03",
-    vehicle: "FV-102",
-    description: "Fuel refill",
-  },
-];
-
 export default function Expenses() {
-  const [expenseList, setExpenseList] = useState(initialExpenses);
+ const [expenseList, setExpenseList] = useState([]);
+
+useEffect(() => {
+  fetch("http://localhost:5000/api/expenses")
+    .then((response) => response.json())
+    .then((data) => {
+      setExpenseList(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching expenses:", error);
+    });
+}, []);
 
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -80,25 +56,25 @@ export default function Expenses() {
   const stats = [
     {
       title: "Total Expenses",
-      value: `$${totalExpenses.toLocaleString()}`,
+     value: `₹${totalExpenses.toLocaleString("en-IN")}`,
       icon: <FaMoneyBillWave />,
       color: "bg-blue-500",
     },
     {
       title: "Fuel",
-      value: `$${fuelExpenses.toLocaleString()}`,
+      value: `₹${fuelExpenses.toLocaleString("en-IN")}`,
       icon: <FaGasPump />,
       color: "bg-orange-500",
     },
     {
       title: "Repairs",
-      value: `$${repairExpenses.toLocaleString()}`,
+      value: `₹${repairExpenses.toLocaleString("en-IN")}`,
       icon: <FaTools />,
       color: "bg-yellow-500",
     },
     {
       title: "Insurance",
-      value: `$${insuranceExpenses.toLocaleString()}`,
+      value: `₹${insuranceExpenses.toLocaleString("en-IN")}`,
       icon: <FaShieldAlt />,
       color: "bg-green-500",
     },
@@ -123,17 +99,37 @@ export default function Expenses() {
 
   // -------------------- Delete --------------------
 
-  const handleDelete = () => {
-    if (!deleteExpense) return;
+const handleDelete = async () => {
+  if (!deleteExpense) return;
+
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/expenses/${deleteExpense._id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to delete expense"
+      );
+    }
 
     setExpenseList((currentExpenses) =>
       currentExpenses.filter(
-        (expense) => expense.id !== deleteExpense.id
+        (expense) => expense._id !== deleteExpense._id
       )
     );
 
     setDeleteExpense(null);
-  };
+  } catch (error) {
+    console.error("Error deleting expense:", error);
+    alert("Failed to delete expense");
+  }
+};
 
   // -------------------- Create --------------------
 
@@ -148,17 +144,41 @@ export default function Expenses() {
 
   // -------------------- Edit --------------------
 
-  const handleEditSave = (updatedExpense) => {
+const handleEditSave = async (updatedExpense) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/api/expenses/${updatedExpense._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedExpense),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to update expense"
+      );
+    }
+
     setExpenseList((currentExpenses) =>
       currentExpenses.map((expense) =>
-        expense.id === updatedExpense.id
-          ? updatedExpense
+        expense._id === data.expense._id
+          ? data.expense
           : expense
       )
     );
 
     setEditingExpense(null);
-  };
+  } catch (error) {
+    console.error("Error updating expense:", error);
+    alert("Failed to update expense");
+  }
+};
 
   // -------------------- UI --------------------
 
@@ -325,7 +345,7 @@ export default function Expenses() {
                   </div>
 
                   <p className="text-2xl font-bold text-slate-800">
-                    ${Number(expense.amount).toLocaleString()}
+                  ₹{Number(expense.amount).toLocaleString("en-IN")}
                   </p>
 
                   <div className="flex flex-wrap gap-x-8 gap-y-2
@@ -463,7 +483,7 @@ export default function Expenses() {
               <div>
                 <p className="text-sm text-slate-500">Amount</p>
                 <p className="text-2xl font-bold text-blue-600">
-                  ${Number(selectedExpense.amount).toLocaleString()}
+                 ₹{Number(selectedExpense.amount).toLocaleString("en-IN")}
                 </p>
               </div>
 
@@ -584,23 +604,43 @@ function ExpenseModal({
   onSave,
 }) {
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    e.preventDefault();
+  const formData = new FormData(e.target);
 
-    const formData = new FormData(e.target);
-
-    const updatedExpense = {
-      id: expense?.id || Date.now(),
-      category: formData.get("category"),
-      amount: Number(formData.get("amount")),
-      date: formData.get("date"),
-      vehicle: formData.get("vehicle"),
-      description: formData.get("description"),
-    };
-
-    onSave(updatedExpense);
+  const newExpense = {
+    category: formData.get("category"),
+    amount: Number(formData.get("amount")),
+    date: formData.get("date"),
+    vehicle: formData.get("vehicle"),
+    description: formData.get("description"),
   };
+
+  try {
+    const response = await fetch(
+      "http://localhost:5000/api/expenses",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newExpense),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to create expense");
+    }
+
+    onSave(data.expense);
+  } catch (error) {
+    console.error("Error creating expense:", error);
+    alert("Failed to create expense");
+  }
+};
 
   return (
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import DispatchViewModal from "../components/DispatchViewModal";
 import EditDispatchModal from "../components/EditDispatchModal";
@@ -16,14 +16,23 @@ import {
   FaPlus,
 } from "react-icons/fa";
 
-import dispatches from "../data/dispatches";
-
 export default function Dispatcher() {
   // -------------------- States --------------------
 
   const [search, setSearch] = useState("");
 
-  const [dispatchList, setDispatchList] = useState(dispatches);
+  const [dispatchList, setDispatchList] = useState([]);
+
+useEffect(() => {
+  fetch("http://localhost:5000/api/dispatches")
+    .then((response) => response.json())
+    .then((data) => {
+      setDispatchList(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching dispatches:", error);
+    });
+}, []);
 
   const [selectedTrip, setSelectedTrip] = useState(null);
 
@@ -247,7 +256,7 @@ export default function Dispatcher() {
           {filteredDispatches.map((trip, index) => (
 
             <div
-              key={trip.id}
+              key={trip._id}
               className={`p-6 hover:bg-slate-50
               transition-all duration-300 ${
                 index !== filteredDispatches.length - 1
