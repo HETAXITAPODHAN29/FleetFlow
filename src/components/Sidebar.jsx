@@ -28,7 +28,7 @@ export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
 
-  // Get currently logged-in user
+  // Get logged-in user
   const storedUser = localStorage.getItem("fleetflowUser");
 
   const user = storedUser
@@ -37,6 +37,14 @@ export default function Sidebar() {
         name: "User",
         role: "Fleet Manager",
       };
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("fleetflowToken");
+    localStorage.removeItem("fleetflowUser");
+
+    navigate("/");
+  };
 
   return (
     <aside
@@ -51,6 +59,7 @@ export default function Sidebar() {
             <h1 className="text-3xl font-bold text-blue-400">
               FleetFlow
             </h1>
+
             <p className="text-sm text-slate-400 mt-1">
               Fleet Management
             </p>
@@ -77,7 +86,8 @@ export default function Sidebar() {
               className={({ isActive }) =>
                 `flex items-center ${
                   collapsed ? "justify-center" : "gap-4"
-                } px-4 py-3 rounded-xl mb-3 transition-all duration-300 ${
+                } px-4 py-3 rounded-xl mb-3 transition-all duration-300
+                ${
                   isActive
                     ? "bg-blue-600 shadow-lg"
                     : "hover:bg-slate-800"
@@ -100,6 +110,7 @@ export default function Sidebar() {
       <div className="border-t border-slate-700 p-4">
         {!collapsed ? (
           <>
+            {/* User Information */}
             <div className="flex items-center gap-3">
               <FaUserCircle
                 size={42}
@@ -117,26 +128,18 @@ export default function Sidebar() {
               </div>
             </div>
 
+            {/* Logout Button */}
             <button
-              onClick={() => navigate("/profile")}
-              className="mt-4 w-full bg-slate-800 hover:bg-slate-700 rounded-xl py-2.5 transition font-medium"
-            >
-              View Profile
-            </button>
-
-            <button
-              onClick={() => {
-                localStorage.removeItem("fleetflowToken");
-                localStorage.removeItem("fleetflowUser");
-                navigate("/");
-              }}
-              className="mt-3 w-full bg-red-500 hover:bg-red-600 rounded-xl py-3 transition font-medium flex items-center justify-center gap-2"
+              type="button"
+              onClick={handleLogout}
+              className="mt-5 w-full bg-red-500 hover:bg-red-600 rounded-xl py-3 transition font-medium flex items-center justify-center gap-2"
             >
               <FaSignOutAlt />
               Logout
             </button>
           </>
         ) : (
+          /* Collapsed Sidebar */
           <div className="flex flex-col items-center gap-5">
             <FaUserCircle
               size={36}
@@ -144,12 +147,10 @@ export default function Sidebar() {
             />
 
             <button
-              onClick={() => {
-                localStorage.removeItem("fleetflowToken");
-                localStorage.removeItem("fleetflowUser");
-                navigate("/");
-              }}
-              className="hover:text-red-400 transition"
+              type="button"
+              onClick={handleLogout}
+              className="cursor-pointer hover:text-red-400 transition"
+              title="Logout"
             >
               <FaSignOutAlt size={22} />
             </button>
