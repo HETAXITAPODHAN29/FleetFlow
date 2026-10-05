@@ -146,6 +146,13 @@ export default function Sidebar() {
               className="text-blue-400"
             />
 
+          <button
+            type="button"
+            onClick={() => navigate("/profile")}
+            className="mt-4 w-full bg-slate-800 hover:bg-slate-700 rounded-xl py-2.5 transition font-medium"
+          >
+            View Profile
+          </button>
             <button
               type="button"
               onClick={handleLogout}
