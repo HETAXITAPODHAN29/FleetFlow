@@ -76,7 +76,7 @@ export default function Hero({
               </span>
 
               <span className="ml-3">
-                👋
+                <FaTruck className="inline-block text-blue-500" />
               </span>
 
             </h1>

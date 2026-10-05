@@ -56,10 +56,15 @@ export default function Sidebar() {
       <div className="flex items-center justify-between p-6 border-b border-slate-700">
         {!collapsed && (
           <div>
-            <h1 className="text-3xl font-bold text-blue-400">
-              FleetFlow
-            </h1>
+            <span className="ml-3">  
+                <FaTruck className=" text-3xl inline block text-blue-200" />
+            </span>
 
+            <span className="text-3xl font-bold text-blue-400">
+              FleetFlow
+            </span>
+
+              
             <p className="text-sm text-slate-400 mt-1">
               Fleet Management
             </p>
