@@ -17,6 +17,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
+  // Fetch logged-in user's profile
   useEffect(() => {
     const storedUser = localStorage.getItem("fleetflowUser");
 
@@ -25,35 +26,52 @@ export default function Profile() {
       return;
     }
 
-    const loggedInUser = JSON.parse(storedUser);
+    try {
+      const loggedInUser = JSON.parse(storedUser);
 
-    fetch(
-      `http://localhost:5000/api/users/profile/${loggedInUser.id}`
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch profile");
-        }
+      // MongoDB normally provides _id.
+      // id is kept as fallback for older localStorage data.
+      const userId = loggedInUser._id || loggedInUser.id;
 
-        return response.json();
-      })
-      .then((data) => {
-        setUser(data);
+      if (!userId) {
+        console.error("User ID not found in localStorage");
+        setLoading(false);
+        return;
+      }
 
-        setFormData({
-          name: data.name || "",
-          email: data.email || "",
-          phone: data.phone || "",
+      fetch(`http://localhost:5000/api/users/profile/${userId}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch profile");
+          }
+
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Profile data:", data);
+
+          setUser(data);
+
+          setFormData({
+            name: data.name || "",
+            email: data.email || "",
+            phone: data.phone || "",
+          });
+
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Profile error:", error);
+          setLoading(false);
         });
-
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Profile error:", error);
-        setLoading(false);
-      });
+    } catch (error) {
+      console.error("Invalid stored user data:", error);
+      localStorage.removeItem("fleetflowUser");
+      navigate("/");
+    }
   }, [navigate]);
 
+  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -61,6 +79,7 @@ export default function Profile() {
     });
   };
 
+  // Save updated profile
   const handleSave = async () => {
     if (!user) return;
 
@@ -84,24 +103,19 @@ export default function Profile() {
         throw new Error(data.message || "Failed to update profile");
       }
 
-      setUser(data.user);
+      // Backend returns the updated user directly
+      setUser(data);
 
+      // Keep localStorage updated
       localStorage.setItem(
         "fleetflowUser",
-        JSON.stringify({
-          id: data.user._id,
-          name: data.user.name,
-          email: data.user.email,
-          role: data.user.role,
-          phone: data.user.phone,
-          status: data.user.status,
-        })
+        JSON.stringify(data)
       );
 
       setFormData({
-        name: data.user.name,
-        email: data.user.email,
-        phone: data.user.phone || "",
+        name: data.name || "",
+        email: data.email || "",
+        phone: data.phone || "",
       });
 
       setEditing(false);
@@ -115,16 +129,35 @@ export default function Profile() {
     }
   };
 
+  // Loading screen
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-100 flex items-center justify-center">
-        <p className="text-slate-600">Loading profile...</p>
+        <p className="text-slate-600 text-lg">
+          Loading profile...
+        </p>
       </div>
     );
   }
 
+  // If profile couldn't be loaded
   if (!user) {
-    return null;
+    return (
+      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-slate-600 mb-4">
+            Unable to load profile.
+          </p>
+
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="px-5 py-3 bg-blue-600 text-white rounded-xl"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -281,8 +314,8 @@ export default function Profile() {
                   setEditing(false);
 
                   setFormData({
-                    name: user.name,
-                    email: user.email,
+                    name: user.name || "",
+                    email: user.email || "",
                     phone: user.phone || "",
                   });
                 }}
