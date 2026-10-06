@@ -38,7 +38,7 @@ export default function Sidebar() {
         role: "Fleet Manager",
       };
 
-  // Logout function
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem("fleetflowToken");
     localStorage.removeItem("fleetflowUser");
@@ -56,15 +56,14 @@ export default function Sidebar() {
       <div className="flex items-center justify-between p-6 border-b border-slate-700">
         {!collapsed && (
           <div>
-            <span className="ml-3">  
-                <FaTruck className=" text-3xl inline block text-blue-200" />
+            <span className="ml-3">
+              <FaTruck className="text-3xl inline-block text-blue-200" />
             </span>
 
             <span className="text-3xl font-bold text-blue-400">
               FleetFlow
             </span>
 
-              
             <p className="text-sm text-slate-400 mt-1">
               Fleet Management
             </p>
@@ -91,8 +90,7 @@ export default function Sidebar() {
               className={({ isActive }) =>
                 `flex items-center ${
                   collapsed ? "justify-center" : "gap-4"
-                } px-4 py-3 rounded-xl mb-3 transition-all duration-300
-                ${
+                } px-4 py-3 rounded-xl mb-3 transition-all duration-300 ${
                   isActive
                     ? "bg-blue-600 shadow-lg"
                     : "hover:bg-slate-800"
@@ -113,8 +111,11 @@ export default function Sidebar() {
 
       {/* User Section */}
       <div className="border-t border-slate-700 p-4">
+
+        {/* EXPANDED SIDEBAR */}
         {!collapsed ? (
-          <>
+          <div>
+
             {/* User Information */}
             <div className="flex items-center gap-3">
               <FaUserCircle
@@ -133,39 +134,54 @@ export default function Sidebar() {
               </div>
             </div>
 
-            {/* Logout Button */}
+            {/* View Profile */}
+            <button
+              type="button"
+              onClick={() => navigate("/profile")}
+              className="mt-4 w-full bg-slate-800 hover:bg-slate-700 rounded-xl py-3 transition font-medium"
+            >
+              View Profile
+            </button>
+
+            {/* Logout */}
             <button
               type="button"
               onClick={handleLogout}
-              className="mt-5 w-full bg-red-500 hover:bg-red-600 rounded-xl py-3 transition font-medium flex items-center justify-center gap-2"
+              className="mt-3 w-full bg-red-500 hover:bg-red-600 rounded-xl py-3 transition font-medium flex items-center justify-center gap-2"
             >
               <FaSignOutAlt />
               Logout
             </button>
-          </>
-        ) : (
-          /* Collapsed Sidebar */
-          <div className="flex flex-col items-center gap-5">
-            <FaUserCircle
-              size={36}
-              className="text-blue-400"
-            />
 
-          <button
-            type="button"
-            onClick={() => navigate("/profile")}
-            className="mt-4 w-full bg-slate-800 hover:bg-slate-700 rounded-xl py-2.5 transition font-medium"
-          >
-            View Profile
-          </button>
+          </div>
+        ) : (
+
+          /* COLLAPSED SIDEBAR */
+          <div className="flex flex-col items-center gap-5">
+
+            {/* Profile Icon */}
+            <button
+              type="button"
+              onClick={() => navigate("/profile")}
+              title="View Profile"
+              className="hover:text-blue-300 transition"
+            >
+              <FaUserCircle
+                size={36}
+                className="text-blue-400"
+              />
+            </button>
+
+            {/* Logout */}
             <button
               type="button"
               onClick={handleLogout}
-              className="cursor-pointer hover:text-red-400 transition"
               title="Logout"
+              className="hover:text-red-400 transition"
             >
               <FaSignOutAlt size={22} />
             </button>
+
           </div>
         )}
       </div>

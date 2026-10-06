@@ -21,31 +21,64 @@ export default function App() {
     <>
       {hideSidebar ? (
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route
+            path="/"
+            element={<Navigate to="/login" replace />}
+          />
+
           <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
         </Routes>
       ) : (
         <div className="flex min-h-screen bg-slate-100">
 
           {/* Sidebar */}
-
           <Sidebar />
 
           {/* Main Content */}
+          <main className="flex-1 p-8 overflow-auto">
+            <Routes>
+              <Route
+                path="/dashboard"
+                element={<Dashboard />}
+              />
 
-        <main className="flex-1 p-8 overflow-auto">
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/vehicles" element={<Vehicles />} />
-            <Route path="/drivers" element={<Drivers />} />
-            <Route path="/dispatcher" element={<Dispatcher />} />
-            <Route path="/maintenance" element={<Maintenance />} />
-            <Route path="/expenses" element={<Expenses />} />
-            <Route path="/analytics" element={<Analytics />} />
-          </Routes>
-        </main>
+              <Route
+                path="/vehicles"
+                element={<Vehicles />}
+              />
 
+              <Route
+                path="/drivers"
+                element={<Drivers />}
+              />
+
+              <Route
+                path="/dispatcher"
+                element={<Dispatcher />}
+              />
+
+              <Route
+                path="/maintenance"
+                element={<Maintenance />}
+              />
+
+              <Route
+                path="/expenses"
+                element={<Expenses />}
+              />
+
+              <Route
+                path="/analytics"
+                element={<Analytics />}
+              />
+
+              {/* Profile */}
+              <Route
+                path="/profile"
+                element={<Profile />}
+              />
+            </Routes>
+          </main>
         </div>
       )}
     </>
